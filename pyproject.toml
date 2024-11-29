@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "pohznanie"
+version = "0.1.0"
+description = "game based on roleplay"
+authors = ["amadeo <risefenixpuryfire@gmail.com>"]
+readme = "README.md"
+
+packages = [
+  { include = "src" },
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytelegrambotapi = "^4.24.0"
+sqlalchemy = "^2.0.36"
+psycopg2-binary = "2.9.10"
+pydantic = "^2.10.2"
+python-dotenv = "^1.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+pytest-asyncio = "^0.23.8"
+pylint = "^3.2.6"
+flake8 = "^7.1.1"
+pre-commit = "^3.8.0"
+pytest-cov = "^5.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+bot = "src.main:main"
+
+
+
