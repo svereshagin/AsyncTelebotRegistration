@@ -2,7 +2,7 @@ from telebot.async_telebot import AsyncTeleBot
 from src.app.handlers import register_handlers
 from .config import TOKEN
 import asyncio
-
+from database import engine
 
 bot = AsyncTeleBot(TOKEN, protect_content='True')
 
@@ -13,3 +13,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    engine.connect()
