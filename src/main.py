@@ -1,16 +1,15 @@
-import telebot
-from src.config.config import TOKEN
+from telebot.async_telebot import AsyncTeleBot
 from src.app.handlers import register_handlers
+from .config import TOKEN
+import asyncio
 
-bot = telebot.TeleBot(TOKEN)
 
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.send_message(message.chat.id, message.text)
+bot = AsyncTeleBot(TOKEN, protect_content='True')
+
 
 def main():
-    # register_handlers(bot)
-    bot.infinity_polling()
+    register_handlers(bot)
+    asyncio.run(bot.polling())
 
 if __name__ == '__main__':
     main()

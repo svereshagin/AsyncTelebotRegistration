@@ -29,3 +29,6 @@
 ## Readme!
 
 ***LOADING… …***
+
+Project Structure manual 
+https://github.com/zhanymkanov/fastapi-best-practices
