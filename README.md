@@ -32,3 +32,7 @@
 
 Project Structure manual 
 https://github.com/zhanymkanov/fastapi-best-practices
+
+
+#реализация хранения фото в БД 
+https://qna.habr.com/q/441688
