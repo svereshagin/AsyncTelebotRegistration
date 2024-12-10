@@ -1,10 +1,21 @@
-from sqlalchemy import (MetaData, Table, Column, BIGINT,
-                        Integer, String, Text, DateTime,
-                        Boolean, ForeignKey, SmallInteger)
-from sqlalchemy.ext.asyncio import AsyncAttrs, AsyncSession,create_async_engine
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import relationship
+# Импорты из библиотеки SQLAlchemy
+from sqlalchemy import (
+    MetaData, Table, Column, BIGINT, Integer, String, Text,
+    DateTime, Boolean, ForeignKey, SmallInteger, func
+)
+
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, AsyncAttrs, async_sessionmaker
+from sqlalchemy.orm import DeclarativeBase, relationship, Mapped, mapped_column, selectinload
 from sqlalchemy.future import select
+
+# Другие импорты
+import asyncio
+import datetime
+from typing import List, Optional
+
+# Конфигурация для подключения к базе данных
+from ..config import DB_CONFIG
+
 
 class Base(AsyncAttrs, DeclarativeBase):
     pass
@@ -72,59 +83,85 @@ class Session(Base):
     # Relationships
     host = relationship("User ", back_populates="sessions")
 
-def run_queries(session):
-    """A function written in "synchronous" style that will be invoked
-       within the asyncio event loop.
-       The session object passed is a traditional orm.Session object with
-       synchronous interface.
-       stmt — это объект запроса, который выбирает все записи из таблицы,
-       соответствующей модели A. select(A) создает SQL-запрос для извлечения
-       всех строк из таблицы, связанной с классом A."""
-    stmt = select(A)
-
-    result = session.execute(stmt)
-
-    for a1 in result.scalars():
-        print(a1)
-        # lazy loads
-        for b1 in a1.bs:
-            print(b1)
-
-    result = session.execute(select(A).order_by(A.id))
-
-    a1 = result.scalars().first()
-
-    a1.data = "new data"
-
 
 async def async_main():
     """Main program function."""
 
     engine = create_async_engine(
-        "postgresql+asyncpg://scott:tiger@localhost/test",
+        f"postgresql+asyncpg://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['dbname']}",
         echo=True,
     )
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+    async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    async with AsyncSession(engine) as session:
+    async_session = async_sessionmaker(engine, expire_on_commit=False)
+
+    async with async_session() as session:
         async with session.begin():
+            # Добавление нескольких пользователей и их игровых данных
             session.add_all(
                 [
-                    A(bs=[B(), B()], data="a1"),
-                    A(bs=[B()], data="a2"),
-                    A(bs=[B(), B()], data="a3"),
+                    User(
+                        first_name="John", last_name="Doe", sex=1, age=30,
+                        date_of_birth=datetime.datetime(1994, 1, 1), telegram_id=1234567890,
+                        email="john.doe@example.com", city="New York", geolocation="40.7128, -74.0060",
+                        privileges="admin", status=1,
+                        in_game_user=[InGameUser(user_health_points=100, user_exp=50, user_money_gold=1000, user_money_silver=500, user_money_bronze=300, is_adult=True)],
+                        user_statistics=[UserStatistics(endgames=10, done_quests=5, declined_challenges=2, reports=1)],
+                        sessions=[Session(players_quantity=5, status=True, password=1234, is_adm=True, players="John, Mike", created_at=datetime.datetime.now())]
+                    ),
+                    User(
+                        first_name="Jane", last_name="Smith", sex=0, age=25,
+                        date_of_birth=datetime.datetime(1999, 5, 21), telegram_id=9876543210,
+                        email="jane.smith@example.com", city="Los Angeles", geolocation="34.0522, -118.2437",
+                        privileges="user", status=2,
+                        in_game_user=[InGameUser(user_health_points=90, user_exp=40, user_money_gold=800, user_money_silver=600, user_money_bronze=200, is_adult=True)],
+                        user_statistics=[UserStatistics(endgames=5, done_quests=3, declined_challenges=1, reports=0)],
+                        sessions=[Session(players_quantity=3, status=False, password=5678, is_adm=False, players="Jane, Mike", created_at=datetime.datetime.now())]
+                    )
                 ]
             )
 
-        # we have the option to run a function written in sync style
-        # within the AsyncSession.run_sync() method.  The function will
-        # be passed a synchronous-style Session object and the function
-        # can use traditional ORM patterns.
-        await session.run_sync(run_queries)
+        # Загрузка всех пользователей с их игровыми данными и статистикой
+        stmt = select(User).options(selectinload(User.in_game_user), selectinload(User.user_statistics), selectinload(User.sessions))
 
-        await session.commit()
+        # Выполнение запроса и вывод результатов
+        result = await session.scalars(stmt)
 
+        # result - это объект типа BufferedResult
+        for user in result:
+            print(f"User: {user.first_name} {user.last_name}")
+            print(f"Created at: {user.date_of_birth}")
+            for in_game_user in user.in_game_user:
+                print(f"In-Game Stats: Health={in_game_user.user_health_points}, EXP={in_game_user.user_exp}")
+            for user_stat in user.user_statistics:
+                print(f"User Statistics: Endgames={user_stat.endgames}, Done Quests={user_stat.done_quests}")
+            for session in user.sessions:
+                print(f"Session: {session.players_quantity} players, Status={session.status}")
 
-asyncio.run(async_main())
+        # Для асинхронной выборки с потоковой передачей данных
+        result = await session.stream(stmt)
+
+        # Используем поток для асинхронной выборки
+        async for user in result.scalars():
+            print(f"Streaming User: {user.first_name} {user.last_name}")
+            for in_game_user in user.in_game_user:
+                print(f"In-Game Stats (streaming): Health={in_game_user.user_health_points}, EXP={in_game_user.user_exp}")
+
+        # Пример изменения данных
+        stmt_update = select(User).order_by(User.user_id)
+
+        result = await session.scalars(stmt_update)
+        user_to_update = result.first()
+
+        # Изменение данных пользователя
+        if user_to_update:
+            user_to_update.first_name = "Updated Name"
+            await session.commit()
+
+        # Пример использования интерфейса AsyncAttrs для ленивой загрузки
+        for in_game_user in await user_to_update.awaitable_attrs.in_game_user:
+            print(f"Lazily loaded in-game stats: Health={in_game_user.user_health_points}")
+

@@ -2,10 +2,7 @@ from telebot.async_telebot import AsyncTeleBot
 from src.app.handlers import register_handlers
 from .config import TOKEN
 import asyncio
-from src.database.database import engine
-# from sqlalchemy.orm import Session
-#
-# session = Session()
+import database.models
 bot = AsyncTeleBot(TOKEN, protect_content='True')
 
 
@@ -15,4 +12,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    engine.connect()
+    asyncio.run(database.models.async_main())
