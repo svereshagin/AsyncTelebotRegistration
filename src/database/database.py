@@ -1,24 +1,25 @@
-from sqlalchemy import create_engine
-from ..config import DB_CONFIG
-from .models import metadata
+from datetime import datetime
+from sqlalchemy import Integer, func
+from sqlalchemy.orm import DeclarativeBase, declared_attr, Mapped, mapped_column
+from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
+from ..config import settings
 
-try:
-    # Создание движка
-    engine = create_engine(
-        f"postgresql+psycopg2://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['dbname']}",
-        echo=True, pool_size=10, max_overflow=10)
 
-    # Подключение к базе данных
-    connection = engine.connect()
+DATABASE_URL = settings.get_db_url()
 
-    # Создание всех таблиц
-    metadata.create_all(engine)
-    print("Таблицы успешно созданы.")
+# Создаем асинхронный движок для работы с базой данных
+engine = create_async_engine(url=DATABASE_URL)
+# Создаем фабрику сессий для взаимодействия с базой данных
+async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
-except Exception as e:
-    print(f"Произошла ошибка: {e}")
-finally:
-    # Закрытие соединения
-    if 'connection' in locals():
-        connection.close()
-        print("Соединение закрыто.")
+# Базовый класс для всех моделей
+class Base(AsyncAttrs, DeclarativeBase):
+    __abstract__ = True  # Класс абстрактный, чтобы не создавать отдельную таблицу для него
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
+
+    @declared_attr.directive
+    def __tablename__(cls) -> str:
+        return cls.__name__.lower() + 's'
