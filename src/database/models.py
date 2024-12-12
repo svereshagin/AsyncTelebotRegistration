@@ -1,59 +1,46 @@
-# Импорты из библиотеки SQLAlchemy
-from sqlalchemy import (
-    MetaData, Table, Column, BIGINT, Integer, String, Text,
-    DateTime, Boolean, ForeignKey, SmallInteger, func
-)
+from sqlalchemy import Boolean, ForeignKey
+from .database import Base
+from sqlalchemy import Integer, String, SMALLINT, BIGINT
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, AsyncAttrs, async_sessionmaker
-from sqlalchemy.orm import DeclarativeBase, relationship, Mapped, mapped_column, selectinload
-from sqlalchemy.future import select
 
-# Другие импорты
-import asyncio
-import datetime
-from typing import List, Optional
 
-# Конфигурация для подключения к базе данных
-from ..config import DB_CONFIG
+class User(Base):
+    """Модель для пользователей"""
+    first_name: Mapped[str] = mapped_column(String, nullable=False)
+    last_name: Mapped[str] = mapped_column(String, nullable=False)
+    # sex: Mapped[int] = mapped_column(SMALLINT, nullable=False)  # 1 = man, 2 = female
+    # age: Mapped[int] = mapped_column(SMALLINT, nullable=False)
+    telegram_id: Mapped[int] = mapped_column(BIGINT, unique=True, nullable=False)
+    # email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    # city: Mapped[str] = mapped_column(String, nullable=False)
+    # geolocation: Mapped[str] = mapped_column(String, nullable=False)
+    # privileges: Mapped[int] = mapped_column(SMALLINT, nullable=False)  # Привилегии (например, 0 - стандарт)
+    # status: Mapped[int] = mapped_column(Integer, nullable=False)  # 0: inactive, 1: in search, 2: in game
 
-#
-# class Base(AsyncAttrs, DeclarativeBase):
-#     pass
-#
-# metadata = MetaData()
-#
-# class User(Base):
-#     __tablename__ = 'users'
-#
-#     user_id = Column(BIGINT(), primary_key=True)
-#     first_name = Column(Text())
-#     last_name = Column(Text())
-#     sex = Column(Integer())  # 0 - female, 1 - male
-#     age = Column(Integer())
-#     date_of_birth = Column(DateTime())
-#     telegram_id = Column(BIGINT(), unique=True)
-#     email = Column(Text())
-#     city = Column(Text())
-#     geolocation = Column(Text())
-#     privileges = Column(Text())
-#     status = Column(Integer())  # 0: inactive, 1: in search, 2: in game
+    # Relationships
+    # in_game_user: Mapped["InGameUser"] = relationship(
+    #     "InGameUser", back_populates="user", uselist=False
+    # user_statistics: Mapped["UserStatistics"] = relationship(
+    #     "UserStatistics", back_populates="user", uselist=False
+    # )
+    # sessions: Mapped["Session"] = relationship("Session", back_populates="host")
+
+
+# Модель InGameUser
+# class InGameUser(Base):
+#     """Модель для игровых пользователей"""
+#     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+#     user_health_points: Mapped[int] = mapped_column(BIGINT, default=100)
+#     user_exp: Mapped[int] = mapped_column(BIGINT, default=0)
+#     user_money_gold: Mapped[int] = mapped_column(BIGINT, default=0)
+#     user_money_silver: Mapped[int] = mapped_column(BIGINT, default=0)
+#     user_money_bronze: Mapped[int] = mapped_column(BIGINT, default=0)
+#     is_adult: Mapped[bool] = mapped_column(Boolean, default=False)
 #
 #     # Relationships
-#     in_game_user = relationship("InGameUser ", back_populates="user")
-#     user_statistics = relationship("User Statistics", back_populates="user")
-#     sessions = relationship("Session", back_populates="host")
-#
-# class InGameUser (Base):
-#     __tablename__ = 'in_game_users'
-#
-#     user_id = Column(BIGINT(), ForeignKey('users.user_id'), primary_key=True)
-#     user_health_points = Column(BIGINT())
-#     user_exp = Column(BIGINT())
-#     user_money_gold = Column(BIGINT())
-#     user_money_silver = Column(BIGINT())
-#     user_money_bronze = Column(BIGINT())
-#     is_adult = Column(Boolean())
-#
+#     user: Mapped[User] = relationship("User", back_populates="in_game_user")
+
 #     # Relationships
 #     user = relationship("User ", back_populates="in_game_user")
 #
@@ -163,7 +150,3 @@ from ..config import DB_CONFIG
 #             print(f"Lazily loaded in-game stats: Health={in_game_user.user_health_points}")
 
 
-engine = create_async_engine(
-        f"postgresql+asyncpg://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['dbname']}",
-        echo=True,
-    )

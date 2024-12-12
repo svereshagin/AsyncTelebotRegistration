@@ -1,16 +1,23 @@
 from telebot.async_telebot import AsyncTeleBot
 from src.app.handlers import register_handlers
-from .config import settings
+from src.database.db_sessions import reset_database
+from src.config import settings
 import asyncio
 # from src.database.models import async_main
 bot = AsyncTeleBot(settings.TOKEN, protect_content=True)
 
 
-def main():
+async def start_bot():
+    await reset_database()
     register_handlers(bot)
-    asyncio.run(bot.polling())
+    print("ok")
+    await bot.polling()
+
+
+async def main():
+    await start_bot()
+
 
 if __name__ == '__main__':
-    # asyncio.run(async_main())
-    main()
+    asyncio.run(main())
 
