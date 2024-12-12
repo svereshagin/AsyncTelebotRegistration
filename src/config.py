@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     DB_HOST: str = "localhost"  #BANNED WHILE WORKING WITH DOCKER   os.getenv("POSTGRES_HOST"),
     DB_PORT: int = os.getenv("POSTGRES_PORT")
     DB_NAME: str = os.getenv("POSTGRES_DB")
-    TOKEN = os.getenv('TOKEN')
+    TOKEN: str = os.getenv('TOKEN')
 
     def get_db_url(self):
         return (f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@"

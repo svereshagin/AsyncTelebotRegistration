@@ -38,7 +38,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 bot = "src.main:main"
-database = "src.database.run:main"
+database = "python -m src.app"
 
 
 

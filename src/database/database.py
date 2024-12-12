@@ -1,9 +1,14 @@
 from datetime import datetime
-from sqlalchemy import Integer, func
+from sqlalchemy import Integer, func, Column
 from sqlalchemy.orm import DeclarativeBase, declared_attr, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from ..config import settings
-
+from sqlalchemy import Column
+from sqlalchemy import func
+from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.orm import Mapped
+from sqlalchemy import Integer, String
+from datetime import datetime
 
 DATABASE_URL = settings.get_db_url()
 
@@ -23,3 +28,14 @@ class Base(AsyncAttrs, DeclarativeBase):
     @declared_attr.directive
     def __tablename__(cls) -> str:
         return cls.__name__.lower() + 's'
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    username: Mapped[str] = Column(String(50), unique=True, nullable=False)
+    email: Mapped[str] = Column(String(100), unique=True, nullable=False)
+    password: Mapped[str] = Column(String(100), nullable=False)
+
+    def __repr__(self):
+        return f"User (id={self.id}, username={self.username}, email={self.email})"
