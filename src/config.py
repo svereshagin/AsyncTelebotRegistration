@@ -7,7 +7,7 @@ load_dotenv()
 class Settings(BaseSettings):
     DB_USER: str = os.getenv("POSTGRES_USER")
     DB_PASSWORD: str = os.getenv("POSTGRES_PASSWORD")
-    DB_HOST: str = "localhost"  #BANNED WHILE WORKING WITH DOCKER   os.getenv("POSTGRES_HOST"),
+    DB_HOST: str =  os.getenv("POSTGRES_HOST") #"localhost" - for local env # postgres for Docker
     DB_PORT: int = os.getenv("POSTGRES_PORT")
     DB_NAME: str = os.getenv("POSTGRES_DB")
     TOKEN: str = os.getenv('TOKEN')
