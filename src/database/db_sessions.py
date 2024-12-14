@@ -1,17 +1,57 @@
-from src.database.database import async_session_maker, Base, engine
+from src.database.database import async_session_maker, Base, engine, connection
+from src.database.models import User
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 
-
-# Асинхронная функция для добавления пользователя
-async def add_person(user):
+@connection
+async def get_users(telegram_id: str, session) -> int:
     try:
-        async with async_session_maker() as session:
-            async with session.begin():
-                session.add(user)
-            await session.refresh(user)
-            print(f"Added user: {user}")
-            return user
+        # Выполняем запрос с фильтрацией по telegram_id
+        res = await session.execute(select(User).filter(User.telegram_id == telegram_id))
+        users = res.scalars().all()  # Получаем список пользователей
+
+        if not users:
+            return 0  # Если пользователей нет, возвращаем 0
+        else:
+            return 1  # Если пользователи найдены, возвращаем 1
+    except Exception as e:
+        print(e)
+        return -1  # Возвращаем -1 в случае ошибки
+
+# @connection
+# async def add_person(user):
+#     try:
+#         async with async_session_maker() as session:
+#             async with session.begin():
+#                 session.add(user)
+#             await session.refresh(user)
+#             print(f"Added user: {user}")
+#             return user
+#     except Exception as e:
+#         print(f"Error adding user: {e}")
+
+@connection
+async def add_person(user, session: AsyncSession) -> int:
+    """
+    Создает нового пользователя с использованием ORM SQLAlchemy.
+
+    Аргументы:
+    - user: User - объект пользователя, который нужно добавить в базу данных.
+    - session: AsyncSession - асинхронная сессия базы данных.
+
+    Возвращает:
+    - int - идентификатор созданного пользователя.
+    """
+    try:
+        # Добавляем пользователя в сессию
+        session.add(user)  # Добавляем пользователя
+        await session.commit()  # Коммитим изменения
+        print(f"Added user: {user}")
+        return user.id  # Возвращаем идентификатор пользователя
     except Exception as e:
         print(f"Error adding user: {e}")
+        raise  # Поднимаем исключение дальше
+
 
 async def reset_database():
     # Удаляем все таблицы

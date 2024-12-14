@@ -1,0 +1,14 @@
+commands:
+  - command: "start"
+    description: "Запускает бота"
+    response: "Привет! Я ваш бот. Как я могу помочь?"
+  - command: "help"
+    description: "Показывает доступные команды"
+    response: "Доступные команды: /start, /help"
+  - command: "echo"
+    description: "Повторяет ваше сообщение"
+    response: "Вы сказали: {message}"
+  - command: "add_me"
+    description: "Добавляет пользователя в БД"
+    response: "Вы были добавлены в БД"
+#
