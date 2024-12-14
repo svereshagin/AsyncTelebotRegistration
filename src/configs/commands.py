@@ -3,7 +3,6 @@ import yaml
 import os
 
 
-
 async def load_commands():
     path_to_file = os.path.join(os.path.dirname(__file__), 'commands.yaml')
     print("Текущая рабочая директория:", os.getcwd())  # Для отладки
