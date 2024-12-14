@@ -36,46 +36,7 @@ def register_handlers(bot):
 
     # Start command handler
     @bot.message_handler(commands=["start"])
-    async def start_ex(message: types.Message, state: StateContext):
-        await bot.send_message(
-            message.chat.id,
-            "Hello! Type /techies to start a conversation about techies."
-        )
+    async def start(msg):
+        pass
 
-    # Techies command handler
-    @bot.message_handler(commands=["techies"])
-    async def techies_command(message: types.Message, state: StateContext):
-        await state.set(MyStates.techies_response)
-        await bot.send_message(message.chat.id, "Do you like techies? (Yes/No)")
 
-    # Handler for techies response
-    @bot.message_handler(state=MyStates.techies_response)
-    async def process_techies_response(message: types.Message, state: StateContext):
-        if message.text.lower() == 'yes':
-            await bot.send_message(message.chat.id, "FUCK U")
-        elif message.text.lower() == 'no':
-            await bot.send_message(message.chat.id, "I too bruda")
-        else:
-            await bot.send_message(message.chat.id, "Please answer with 'Yes' or 'No'.")
-            return  # Не удаляем состояние, чтобы пользователь мог повторить ответ
-
-        # Удаляем состояние после обработки
-        await state.delete()
-
-    # Cancel command handler /cancel
-    @bot.message_handler(state="*", commands=["cancel"])
-    async def cancel_command(message: types.Message, state: StateContext):
-        await state.delete()
-        await bot.send_message(
-            message.chat.id,
-            "Your information has been cleared. Type /start to begin again.",
-            reply_parameters=ReplyParameters(message_id=message.message_id),
-        )
-
-    # Add custom filters
-    bot.add_custom_filter(asyncio_filters.StateFilter(bot))
-
-    # Necessary for state parameter in handlers.
-    from telebot.states.asyncio.middleware import StateMiddleware
-
-    bot.setup_middleware(StateMiddleware(bot))

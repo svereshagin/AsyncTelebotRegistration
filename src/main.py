@@ -3,6 +3,7 @@ from src.app.handlers import register_handlers
 from src.database.db_sessions import reset_database
 from src.config import settings
 import asyncio
+from src.configs.commands import create_commands
 
 
 bot = AsyncTeleBot(settings.TOKEN, protect_content=True)
@@ -10,6 +11,7 @@ bot = AsyncTeleBot(settings.TOKEN, protect_content=True)
 
 async def start_bot():
     await reset_database()
+    await create_commands(bot)
     register_handlers(bot)
     print("ok")
     await bot.polling()
