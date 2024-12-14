@@ -1,5 +1,5 @@
 import asyncio
-from src.database.db_sessions import add_person
+from src.database.db_sessions import add_person, get_users
 from src.database.models import User
 import logging
 from telebot.asyncio_handler_backends import ContinueHandling
@@ -26,6 +26,14 @@ def register_handlers(bot):
         await add_person(user)
         await bot.delete_message(message.chat.id, message.message_id)
         await bot.send_message(message.chat.id, "You have been added!")  # Example response
+
+    @bot.message_handler(commands="get_me")
+    async def start(message):
+        user = await get_users(message.from_user.id)
+        if user:
+            await bot.send_message(message.chat.id, "Your acc Is already exists")
+        else:
+            await bot.send_message(message.chat.id, "You do not have acc, proceed with registration by /add_me")
 
 
     # Initialize the bot
