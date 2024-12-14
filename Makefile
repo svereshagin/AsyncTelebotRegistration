@@ -1,7 +1,5 @@
 COMPOSE_FILE=docker-compose.yml
 
-blacked:
-    black .
 up:
 	@docker-compose -f $(COMPOSE_FILE) up -d
 

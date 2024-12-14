@@ -4,9 +4,24 @@ from src.database.db_sessions import reset_database
 from src.config import settings
 import asyncio
 from src.configs.commands import create_commands
+from telebot import asyncio_filters
+from telebot.asyncio_storage import StateMemoryStorage
+from telebot.states.asyncio.middleware import StateMiddleware
 
 
-bot = AsyncTeleBot(settings.TOKEN, protect_content=True)
+state_storage = StateMemoryStorage()  # don't use this in production; switch to redis
+
+bot = AsyncTeleBot(settings.TOKEN, protect_content=True, state_storage=state_storage)
+# Add custom filters
+bot.add_custom_filter(asyncio_filters.StateFilter(bot))
+bot.add_custom_filter(asyncio_filters.IsDigitFilter())
+bot.add_custom_filter(asyncio_filters.TextMatchFilter())
+
+# necessary for state parameter in handlers.
+
+bot.setup_middleware(StateMiddleware(bot))
+
+# Start polling
 
 
 async def start_bot():
@@ -21,6 +36,5 @@ async def main():
     await start_bot()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     asyncio.run(main())
-

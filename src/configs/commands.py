@@ -4,17 +4,19 @@ import os
 
 
 async def load_commands():
-    path_to_file = os.path.join(os.path.dirname(__file__), 'commands.yaml')
+    path_to_file = os.path.join(os.path.dirname(__file__), "commands.yaml")
     print("Текущая рабочая директория:", os.getcwd())  # Для отладки
     print("Путь к файлу:", path_to_file)  # Для отладки
 
-    with open(path_to_file, 'r', encoding='utf-8') as file:
+    with open(path_to_file, "r", encoding="utf-8") as file:
         return yaml.safe_load(file)
 
 
 def command_generator(data):
-    for command_info in data['commands']:
-        yield telebot.types.BotCommand(command_info['command'], command_info['description'])
+    for command_info in data["commands"]:
+        yield telebot.types.BotCommand(
+            command_info["command"], command_info["description"]
+        )
 
 
 async def create_commands(bot):

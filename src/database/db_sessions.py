@@ -3,11 +3,14 @@ from src.database.models import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
+
 @connection
 async def get_users(telegram_id: str, session) -> int:
     try:
         # Выполняем запрос с фильтрацией по telegram_id
-        res = await session.execute(select(User).filter(User.telegram_id == telegram_id))
+        res = await session.execute(
+            select(User).filter(User.telegram_id == telegram_id)
+        )
         users = res.scalars().all()  # Получаем список пользователей
 
         if not users:
@@ -18,17 +21,6 @@ async def get_users(telegram_id: str, session) -> int:
         print(e)
         return -1  # Возвращаем -1 в случае ошибки
 
-# @connection
-# async def add_person(user):
-#     try:
-#         async with async_session_maker() as session:
-#             async with session.begin():
-#                 session.add(user)
-#             await session.refresh(user)
-#             print(f"Added user: {user}")
-#             return user
-#     except Exception as e:
-#         print(f"Error adding user: {e}")
 
 @connection
 async def add_person(user, session: AsyncSession) -> int:

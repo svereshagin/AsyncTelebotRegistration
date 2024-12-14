@@ -4,19 +4,31 @@ from sqlalchemy import Integer, String, SMALLINT, BIGINT
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
-
 class User(Base):
-    """Модель для пользователей"""
+    """Инициализация модели пользователя.
+
+    Args:
+        first_name (str): Имя пользователя.
+        last_name (str): Фамилия пользователя.
+        sex (int): Пол пользователя (1 - мужской, 2 - женский).
+        age (int): Возраст пользователя.
+        telegram_id (int): ID пользователя в Telegram.
+        email (str): Электронная почта пользователя.
+        city (str): Город пользователя.
+        privileges (int): Привилегии пользователя. По умолчанию 0.
+        status (int): Статус пользователя. По умолчанию 1.
+    """
+
     first_name: Mapped[str] = mapped_column(String, nullable=False)
     last_name: Mapped[str] = mapped_column(String, nullable=False)
-    # sex: Mapped[int] = mapped_column(SMALLINT, nullable=False)  # 1 = man, 2 = female
-    # age: Mapped[int] = mapped_column(SMALLINT, nullable=False)
+    sex: Mapped[int] = mapped_column(SMALLINT, nullable=False)  # 1 = man, 2 = female
+    age: Mapped[int] = mapped_column(SMALLINT, nullable=False)
     telegram_id: Mapped[int] = mapped_column(BIGINT, unique=True, nullable=False)
-    # email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
-    # city: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    city: Mapped[str] = mapped_column(String, nullable=False)
     # geolocation: Mapped[str] = mapped_column(String, nullable=False)
-    # privileges: Mapped[int] = mapped_column(SMALLINT, nullable=False)  # Привилегии (например, 0 - стандарт)
-    # status: Mapped[int] = mapped_column(Integer, nullable=False)  # 0: inactive, 1: in search, 2: in game
+    privileges: Mapped[int] = mapped_column(SMALLINT, nullable=True)  # Привилегии (например, 0 - стандарт)
+    status: Mapped[int] = mapped_column(Integer, nullable=False)  # 0: inactive, 1: in search, 2: in game
 
     # Relationships
     # in_game_user: Mapped["InGameUser"] = relationship(
@@ -148,5 +160,3 @@ class User(Base):
 #         # Пример использования интерфейса AsyncAttrs для ленивой загрузки
 #         for in_game_user in await user_to_update.awaitable_attrs.in_game_user:
 #             print(f"Lazily loaded in-game stats: Health={in_game_user.user_health_points}")
-
-
