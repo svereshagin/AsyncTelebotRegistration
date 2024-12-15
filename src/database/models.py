@@ -16,7 +16,7 @@ class User(Base):
         email (str): Электронная почта пользователя.
         city (str): Город пользователя.
         privileges (int): Привилегии пользователя. По умолчанию 0.
-        status (int): Статус пользователя. По умолчанию 1.
+        status (int): Статус пользователя. По умолчанию 0.
     """
 
     first_name: Mapped[str] = mapped_column(String, nullable=False)
@@ -27,8 +27,8 @@ class User(Base):
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     city: Mapped[str] = mapped_column(String, nullable=False)
     # geolocation: Mapped[str] = mapped_column(String, nullable=False)
-    privileges: Mapped[int] = mapped_column(SMALLINT, nullable=True)  # Привилегии (например, 0 - стандарт)
-    status: Mapped[int] = mapped_column(Integer, nullable=False)  # 0: inactive, 1: in search, 2: in game
+    privileges: Mapped[int] = mapped_column(SMALLINT, default=0)  # Привилегии (например, 0 - стандарт)
+    status: Mapped[int] = mapped_column(SMALLINT, default=0)  # 0: inactive, 1: in search, 2: in game
 
     # Relationships
     # in_game_user: Mapped["InGameUser"] = relationship(

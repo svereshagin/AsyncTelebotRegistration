@@ -1,4 +1,3 @@
-
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
 import logging
@@ -10,35 +9,35 @@ from telebot.types import ReplyParameters
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 
 
 class RegistrateUser (StatesGroup):
-    waiting_for_name = State()
-    waiting_for_last_name = State()
-    waiting_for_sex = State()
-    waiting_for_age = State()
+    waiting_for_name: str = State()
+    waiting_for_last_name: str = State()
+    waiting_for_sex: str = State()
+    waiting_for_age: int = State()
     waiting_for_email = State()
     waiting_for_city = State()
 
-def register_handlers(bot):
-    @bot.message_handler(commands="add_me")
-    async def start(message: types.Message):
-        logger.info(f"User  {message.from_user.id} initiated registration.")
 
+def register_handlers(bot):
+    @bot.message_handler(commands="start")
+    async def start(message: types.Message, state: StateContext):
+        logger.info(f"User  {message.from_user.id} initiated registration.")
         user = await get_users(telegram_id=message.chat.id)
+
         if user:
             await bot.send_message(message.chat.id, "You are already registered.")
         else:
-            user = User(
-                first_name=message.from_user.first_name,
-                last_name=message.from_user.last_name,
-                telegram_id=message.from_user.id,
+            # Переход к регистрации, устанавливаем состояние
+            await state.set(RegistrateUser.waiting_for_name)
+            await bot.send_message(
+                message.chat.id,
+                "Hello! What is your first name?\n"
+                "You can skip the process with /cancel command.",
+                reply_parameters=ReplyParameters(message_id=message.message_id),
             )
-            await add_person(user)
-            await bot.send_message(message.chat.id, "You have been added!")
+
 
     @bot.message_handler(commands="get_me")
     async def get_me(message: types.Message):
@@ -51,8 +50,8 @@ def register_handlers(bot):
                 "You do not have an account. Proceed with registration by /add_me.",
             )
 
-    @bot.message_handler(commands=["start"])
-    async def start_ex(message: types.Message, state: StateContext):
+    @bot.message_handler(commands=["registration"])
+    async def start_ex_(message: types.Message, state: StateContext):
         await state.set(RegistrateUser.waiting_for_name)
         await bot.send_message(
             message.chat.id,
@@ -143,27 +142,39 @@ def register_handlers(bot):
         )
 
     # Handler for city input
+    # Handler for city input
     @bot.message_handler(state=RegistrateUser.waiting_for_city)
     async def city_get(message: types.Message, state: StateContext):
         async with state.data() as data:
-            # Retrieving all data from state
-            name = data.get('name')
+            # Retrieve information from state data
+            first_name = data.get('name')
             last_name = data.get('last_name')
-            sex = data.get('sex')
-            age = data.get('age')
+            sex = 1 if data.get("sex") == "male" else 0
+            age = int(data.get('age'))
             email = data.get('email')
             city = message.text  # city from user input
+            # Create User instance
+            user = User(
+                first_name=first_name,
+                last_name=last_name,
+                sex=sex,
+                age=age,
+                telegram_id=message.from_user.id,
+                email=email,
+                city=city
+            )
 
             msg = (
                 f"Thank you for sharing! Here is a summary of your information:\n"
-                f"First Name: {name}\n"
+                f"First Name: {first_name}\n"
                 f"Last Name: {last_name}\n"
-                f"Sex: {sex}\n"
+                f"Sex: {'male' if sex == 1 else 'female'}\n"
                 f"Age: {age}\n"
                 f"Email: {email}\n"
                 f"City: {city}"
             )
 
+        await add_person(user)
         await bot.send_message(
             message.chat.id,
             msg,
