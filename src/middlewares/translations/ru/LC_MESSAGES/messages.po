@@ -1,0 +1,5 @@
+msgid "Hello!"
+msgstr "Привет!"
+
+msgid "Welcome to the bot!"
+msgstr "Добро пожаловать в бота!"
