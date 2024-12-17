@@ -7,7 +7,6 @@ ENV POETRY_VERSION=1.8.4 \
 
 # Install Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
-
 # Set the working directory
 WORKDIR /code
 
@@ -21,5 +20,7 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
     && poetry install --without dev --no-interaction --no-ansi \
     && rm -rf $(poetry config cache-dir)/{cache,artifacts}
 
+
 # Copy the rest of the application code
+
 COPY . .

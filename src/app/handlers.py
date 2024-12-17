@@ -1,14 +1,17 @@
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
+from telebot.asyncio_filters import TextFilter
 import logging
-from telebot import async_telebot, asyncio_filters, types
-from telebot.asyncio_storage import StateMemoryStorage
+from telebot import types
 from telebot.states import State, StatesGroup
 from telebot.states.asyncio.context import StateContext
 from telebot.types import ReplyParameters
-
+from src.middleware.i18n_middleware_example.my_translator import _, __
+from src.middleware.i18n_middleware_example import keyboards
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+users_lang = {}
 
 
 class RegistrateUser (StatesGroup):
@@ -16,28 +19,26 @@ class RegistrateUser (StatesGroup):
     waiting_for_last_name: str = State()
     waiting_for_sex: str = State()
     waiting_for_age: int = State()
-    waiting_for_email = State()
-    waiting_for_city = State()
-
+    waiting_for_email: str = State()
+    waiting_for_city: str = State()
+    waiting_for_language: str = State()
 
 def register_handlers(bot):
     @bot.message_handler(commands="start")
     async def start(message: types.Message, state: StateContext):
-        logger.info(f"User  {message.from_user.id} initiated registration.")
+        lang = users_lang.get(message.from_user.id, 'en')
+        text = _("Hello ! What is your first name?\n You can skip the process with /cancel command.", lang=lang)
         user = await get_users(telegram_id=message.chat.id)
 
         if user:
-            await bot.send_message(message.chat.id, "You are already registered.")
+            await bot.send_message(message.chat.id, _("You are already registered", lang=users_lang.get(message.from_user.id, 'en')))
         else:
-            # Переход к регистрации, устанавливаем состояние
             await state.set(RegistrateUser.waiting_for_name)
+            text = _("Hello ! What is your first name?\n You can skip the process with /cancel command.",lang=users_lang.get(message.from_user.id, 'en'))
             await bot.send_message(
-                message.chat.id,
-                "Hello! What is your first name?\n"
-                "You can skip the process with /cancel command.",
+                message.chat.id, text,
                 reply_parameters=ReplyParameters(message_id=message.message_id),
             )
-
 
     @bot.message_handler(commands="get_me")
     async def get_me(message: types.Message):
@@ -182,3 +183,49 @@ def register_handlers(bot):
             reply_parameters=ReplyParameters(message_id=message.message_id),
         )
         await state.delete()
+
+
+
+
+
+
+
+
+    @bot.message_handler(commands='lang')
+    async def change_language_handler(message: types.Message):
+        await bot.send_message(message.chat.id, "Choose language\nВыберите язык\nTilni tanlang",
+                               reply_markup=keyboards.languages_keyboard())
+
+
+    @bot.callback_query_handler(func=None, text=TextFilter(contains=['en', 'ru', 'uz_Latn']))
+    async def language_handler(call: types.CallbackQuery):
+        lang = call.data
+        users_lang[call.from_user.id] = lang
+
+        # When you changed user language, you have to pass it manually beacause it is not changed in context
+        await bot.edit_message_text(_("Language has been changed", lang=lang), call.from_user.id, call.message.id)
+
+    @bot.message_handler(commands='menu')
+    async def menu_handler(message: types.Message):
+        text = _("This is ReplyKeyboardMarkup menu example in multilanguage bot.")
+        await bot.send_message(message.chat.id, text, reply_markup=keyboards.menu_keyboard(_))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

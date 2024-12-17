@@ -1,5 +1,0 @@
-msgid "Hello!"
-msgstr "Hello!"
-
-msgid "Welcome to the bot!"
-msgstr "Welcome to the bot!"
