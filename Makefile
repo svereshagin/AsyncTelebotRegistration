@@ -45,3 +45,39 @@ help:
 	@echo "  app-shell      Запуск bash внутри контейнера app"
 	@echo "  postgres-shell Запустить bash внутри контейнера postgres"
 	@echo "  test           Запустить тесты"
+
+
+
+# Создает шаблонный файл .pot из app.py (просканирует например app.py и найдёт места для переводов)
+create_for_app_translate:
+	xgettext -d messages -o src/middleware/locales/messages.pot src/app/handlers.py --from-code UTF-8
+
+# Создает файл для переводов
+translate_file:
+# Для русской локали (RU):
+	msginit -l ru_RU.UTF-8 -o src/middleware/locales/ru/LC_MESSAGES/messages.po -i src/middleware/locales/messages.pot --no-translator
+# Для итальянской локали (IT):
+	msginit -l it_IT.UTF-8 -o src/middleware/locales/it/LC_MESSAGES/messages.po -i src/middleware/locales/messages.pot --no-translator
+# Для английской локали (EN):
+	msginit -l en_US.UTF-8 -o src/middleware/locales/en/LC_MESSAGES/messages.po -i src/middleware/locales/messages.pot --no-translator
+
+# Компилирует переводы в .mo файлы
+compile_translator_ru:
+	msgfmt -o src/middleware/locales/ru/LC_MESSAGES/messages.mo src/middleware/locales/ru/LC_MESSAGES/messages.po
+
+compile_translator_it:
+	msgfmt -o src/middleware/locales/it/LC_MESSAGES/messages.mo src/middleware/locales/it/LC_MESSAGES/messages.po
+
+compile_translator_en:
+	msgfmt -o src/middleware/locales/en/LC_MESSAGES/messages.mo src/middleware/locales/en/LC_MESSAGES/messages.po
+
+
+help_tran:
+	@echo "Usage: make [command]"
+	@echo "Commands:"
+	@echo "  create_for_app_translate:  создать .pot файл на основании файла(например main.py / handlers.py"
+	@echo "  translate_file          создаст шаблоны для переводов .po из .pot файла "
+	@echo "  compile_translator_en   скомпилировать английскую  .mo файл для проекта"
+	@echo "  compile_translator_it   скомпилировать итальянскую .mo файл для проекта"
+	@echo "  compile_translator_ru   скомпилировать русскую     .mo файл для проекта"
+

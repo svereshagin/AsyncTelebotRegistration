@@ -6,11 +6,13 @@ from telebot import types
 from telebot.states import State, StatesGroup
 from telebot.states.asyncio.context import StateContext
 from telebot.types import ReplyParameters
-from src.middleware.i18n_middleware_example.my_translator import _, __
-from src.middleware.i18n_middleware_example import keyboards
+from src.bot_instance import i18n
+from src.middleware.i18n_middleware import keyboards
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
+_ = i18n.gettext  # for singular translations
+__ = i18n.ngettext  # for plural translations
 users_lang = {}
 
 
@@ -184,33 +186,18 @@ def register_handlers(bot):
         )
         await state.delete()
 
-
-
-
-
-
-
-
     @bot.message_handler(commands='lang')
     async def change_language_handler(message: types.Message):
         await bot.send_message(message.chat.id, "Choose language\nВыберите язык\nTilni tanlang",
                                reply_markup=keyboards.languages_keyboard())
 
-
-    @bot.callback_query_handler(func=None, text=TextFilter(contains=['en', 'ru', 'uz_Latn']))
+    @bot.callback_query_handler(func=None, text=TextFilter(contains=['en', 'ru', 'it']))
     async def language_handler(call: types.CallbackQuery):
         lang = call.data
         users_lang[call.from_user.id] = lang
 
         # When you changed user language, you have to pass it manually beacause it is not changed in context
         await bot.edit_message_text(_("Language has been changed", lang=lang), call.from_user.id, call.message.id)
-
-    @bot.message_handler(commands='menu')
-    async def menu_handler(message: types.Message):
-        text = _("This is ReplyKeyboardMarkup menu example in multilanguage bot.")
-        await bot.send_message(message.chat.id, text, reply_markup=keyboards.menu_keyboard(_))
-
-
 
 
 
