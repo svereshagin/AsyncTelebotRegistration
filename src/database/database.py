@@ -1,9 +1,9 @@
 from sqlalchemy.orm import DeclarativeBase, declared_attr, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
-from sqlalchemy import Integer, String, func, BIGINT
+from sqlalchemy import Integer, func
 from datetime import datetime
 from src.config import settings
-import asyncio
+
 
 # Конфигурация базы данных
 DATABASE_URL = settings.get_db_url()
