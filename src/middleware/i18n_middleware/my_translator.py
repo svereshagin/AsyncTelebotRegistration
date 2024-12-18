@@ -12,7 +12,7 @@ class I18NMiddleware(I18N):
         """
         Here you need to return a list of update types which you want to be processed
         """
-        return ['message', 'callback_query']
+        return ["message", "callback_query"]
 
     async def get_user_language(self, obj: Union[types.Message, types.CallbackQuery]):
         """
@@ -27,8 +27,9 @@ class I18NMiddleware(I18N):
         user_id = obj.from_user.id
 
         if user_id not in users_lang:
-            users_lang[user_id] = 'en'
+            users_lang[user_id] = "en"
 
         return users_lang[user_id]
-users_lang = {}
 
+
+users_lang = {}

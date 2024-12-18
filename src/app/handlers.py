@@ -8,11 +8,12 @@ from telebot.states.asyncio.context import StateContext
 from telebot.types import ReplyParameters
 from src.middleware.i18n_middleware import keyboards
 from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class RegistrateUser (StatesGroup):
+class RegistrateUser(StatesGroup):
     waiting_for_name: str = State()
     waiting_for_last_name: str = State()
     waiting_for_sex: str = State()
@@ -25,9 +26,11 @@ class RegistrateUser (StatesGroup):
 def register_handlers(bot):
     @bot.message_handler(commands="start")
     async def start(message: types.Message, state: StateContext):
-        lang = users_lang.get(message.from_user.id, 'en')
+        lang = users_lang.get(message.from_user.id, "en")
         text = TRAN.return_translated_text("start_greeting", id_=message.from_user.id)
-        text2 = TRAN.return_translated_text("already_registered", id_=message.from_user.id)
+        text2 = TRAN.return_translated_text(
+            "already_registered", id_=message.from_user.id
+        )
         user = await get_users(telegram_id=message.chat.id)
 
         if user:
@@ -35,7 +38,8 @@ def register_handlers(bot):
         else:
             await state.set(RegistrateUser.waiting_for_name)
             await bot.send_message(
-                message.chat.id, text,
+                message.chat.id,
+                text,
                 reply_parameters=ReplyParameters(message_id=message.message_id),
             )
 
@@ -95,7 +99,7 @@ def register_handlers(bot):
     # Handler for sex input
     @bot.message_handler(state=RegistrateUser.waiting_for_sex)
     async def sex_get(message: types.Message, state: StateContext):
-        if message.text.lower() in ['male', 'female']:
+        if message.text.lower() in ["male", "female"]:
             await state.set(RegistrateUser.waiting_for_age)
             await state.add_data(sex=message.text)
             await bot.send_message(
@@ -147,11 +151,11 @@ def register_handlers(bot):
     async def city_get(message: types.Message, state: StateContext):
         async with state.data() as data:
             # Retrieve information from state data
-            first_name = data.get('name')
-            last_name = data.get('last_name')
+            first_name = data.get("name")
+            last_name = data.get("last_name")
             sex = 1 if data.get("sex") == "male" else 0
-            age = int(data.get('age'))
-            email = data.get('email')
+            age = int(data.get("age"))
+            email = data.get("email")
             city = message.text  # city from user input
             # Create User instance
             user = User(
@@ -161,7 +165,7 @@ def register_handlers(bot):
                 age=age,
                 telegram_id=message.from_user.id,
                 email=email,
-                city=city
+                city=city,
             )
 
             msg = (
@@ -183,32 +187,20 @@ def register_handlers(bot):
         )
         await state.delete()
 
-    @bot.message_handler(commands='lang')
+    @bot.message_handler(commands="lang")
     async def change_language_handler(message: types.Message):
-        await bot.send_message(message.chat.id, "Choose language\nВыберите язык\nTilni tanlang",
-                               reply_markup=keyboards.languages_keyboard())
+        await bot.send_message(
+            message.chat.id,
+            "Choose language\nВыберите язык\nTilni tanlang",
+            reply_markup=keyboards.languages_keyboard(),
+        )
 
-    @bot.callback_query_handler(func=None, text=TextFilter(contains=['en', 'ru', 'uz_Latn']))
+    @bot.callback_query_handler(
+        func=None, text=TextFilter(contains=["en", "ru", "uz_Latn"])
+    )
     async def language_handler(call: types.CallbackQuery):
         lang = call.data
         users_lang[call.from_user.id] = lang
-        text = TRAN.return_translated_text("language_changed",id_=0, lang_call=lang)
+        text = TRAN.return_translated_text("language_changed", id_=0, lang_call=lang)
         # When you changed user language, you have to pass it manually beacause it is not changed in context
         await bot.edit_message_text(text, call.from_user.id, call.message.id)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
