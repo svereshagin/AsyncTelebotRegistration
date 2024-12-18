@@ -30,7 +30,8 @@ postgres-shell:
 
 test:
 	@docker-compose -f $(COMPOSE_FILE) exec app pytest
-
+language_compiler:
+	pybabel compile -d ./src/middleware/i18n_middleware_example/locales
 help:
 	@echo "Usage: make [command]"
 	@echo "Commands:"
