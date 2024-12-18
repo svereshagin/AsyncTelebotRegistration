@@ -1,4 +1,4 @@
-from src.database.database import async_session_maker, Base, engine, connection
+from src.database.database import Base, engine, connection
 from src.database.models import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select

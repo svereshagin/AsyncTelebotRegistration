@@ -19,7 +19,7 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
     && python -m pip install --no-cache-dir poetry==1.8.4 \
     && poetry config virtualenvs.create false \
     && poetry install --without dev --no-interaction --no-ansi \
-    && rm -rf $(poetry config cache-dir)/{cache,artifacts}
-
+    && rm -rf $(poetry config cache-dir)/{cache,artifacts} \
+    apt install gettext
 # Copy the rest of the application code
 COPY . .
