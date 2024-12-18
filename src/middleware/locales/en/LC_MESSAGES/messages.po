@@ -1,15 +1,15 @@
-# English translations for f package.
-# Copyright (C) 2024 THE f'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the f package.
+# English translations for  414a43d53067779da28ddf71320338c2b5b168fbf67a3122a45fb319e4121485 package.
+# Copyright (C) 2024 THE  414a43d53067779da28ddf71320338c2b5b168fbf67a3122a45fb319e4121485'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the  414a43d53067779da28ddf71320338c2b5b168fbf67a3122a45fb319e4121485 package.
 # Automatically generated, 2024.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: f "
-"4a4f5f8c1b85386f716ae12b883e66525e2d271223319edbfb690b85744d3e7\n"
+"Project-Id-Version:  "
+"414a43d53067779da28ddf71320338c2b5b168fbf67a3122a45fb319e4121485\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-18 21:12+0300\n"
-"PO-Revision-Date: 2024-12-18 21:12+0300\n"
+"POT-Creation-Date: 2024-12-18 21:52+0300\n"
+"PO-Revision-Date: 2024-12-18 21:52+0300\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en_US\n"
@@ -20,14 +20,62 @@ msgstr ""
 
 #: src/app/handlers.py:32 src/app/handlers.py:39
 msgid ""
-"Hello ! What is your first name?\n"
-" You can skip the process with /cancel command."
-msgstr "Hello ! What is your first name?\n You can skip the process with /cancel command."
+"Hello! What is your first name?\n"
+"You can skip the process with /cancel command."
+msgstr ""
+"Hello! What is your first name?\n"
+"You can skip the process with /cancel command."
 
 #: src/app/handlers.py:36
-msgid "You are already registered"
-msgstr "You are already registered"
+msgid "You are already registered."
+msgstr "You are already registered."
+
+#: src/app/handlers.py:42
+msgid "What is your last name?"
+msgstr "What is your last name?"
+
+#: src/app/handlers.py:46
+msgid "What is your sex? (male/female)"
+msgstr "What is your sex? (male/female)"
+
+#: src/app/handlers.py:50
+msgid "What is your age?"
+msgstr "What is your age?"
+
+#: src/app/handlers.py:54
+msgid "What is your email?"
+msgstr "What is your email?"
+
+#: src/app/handlers.py:58
+msgid "What is your city?"
+msgstr "What is your city?"
+
+#: src/app/handlers.py:62
+msgid ""
+"Thank you for sharing! Here is a summary of your information:\n"
+"First Name: {first_name}\n"
+"Last Name: {last_name}\n"
+"Sex: {sex}\n"
+"Age: {age}\n"
+"Email: {email}\n"
+"City: {city}"
+msgstr ""
+"Thank you for sharing! Here is a summary of your information:\n"
+"First Name: {first_name}\n"
+"Last Name: {last_name}\n"
+"Sex: {sex}\n"
+"Age: {age}\n"
+"Email: {email}\n"
+"City: {city}"
+
+#: src/app/handlers.py:66
+msgid "Please enter a valid number for age."
+msgstr "Please enter a valid number for age."
+
+#: src/app/handlers.py:70
+msgid "Your information has been cleared. Type /start to begin again."
+msgstr "Your information has been cleared. Type /start to begin again."
 
 #: src/app/handlers.py:200
 msgid "Language has been changed"
-msgstr "qweqwe"
+msgstr "Language has been changed"
