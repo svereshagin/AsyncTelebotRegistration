@@ -71,6 +71,8 @@ compile_translator_it:
 compile_translator_en:
 	msgfmt -o src/middleware/locales/en/LC_MESSAGES/messages.mo src/middleware/locales/en/LC_MESSAGES/messages.po
 
+compile_translator_fr:
+	msgfmt -o src/middleware/locales/fr/LC_MESSAGES/messages.mo src/middleware/locales/fr/LC_MESSAGES/messages.po
 
 help_tran:
 	@echo "Usage: make [command]"
@@ -80,4 +82,5 @@ help_tran:
 	@echo "  compile_translator_en   скомпилировать английскую  .mo файл для проекта"
 	@echo "  compile_translator_it   скомпилировать итальянскую .mo файл для проекта"
 	@echo "  compile_translator_ru   скомпилировать русскую     .mo файл для проекта"
-
+	@echo "  compile_translator_fr   скомпилировать французскую     .mo файл для проекта"
+	@echo "  compile_translator_sp   скомпилировать испанскую     .mo файл для проекта"

@@ -1,80 +1,93 @@
-# Russian translations for  414a43d53067779da28ddf71320338c2b5b168fbf67a3122a45fb319e4121485 package.
-# Copyright (C) 2024 THE  414a43d53067779da28ddf71320338c2b5b168fbf67a3122a45fb319e4121485'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the  414a43d53067779da28ddf71320338c2b5b168fbf67a3122a45fb319e4121485 package.
-# Automatically generated, 2024.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version:  "
-"414a43d53067779da28ddf71320338c2b5b168fbf67a3122a45fb319e4121485\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-18 21:52+0300\n"
-"PO-Revision-Date: 2024-12-18 21:52+0300\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: ru\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/app/handlers.py:32 src/app/handlers.py:39
+#: start_greeting
 msgid ""
 "Hello! What is your first name?\n"
 "You can skip the process with /cancel command."
-msgstr "Привет! Как тебя зовут?\nТы можешь пропустить процесс с помощью команды /cancel."
-
-#: src/app/handlers.py:36
-msgid "You are already registered."
-msgstr "Вы уже зарегистрированы."
-
-#: src/app/handlers.py:42
-msgid "What is your last name?"
-msgstr "Как ваша фамилия?"
-
-#: src/app/handlers.py:46
-msgid "What is your sex? (male/female)"
-msgstr "Какой у вас пол? (мужской/женский)"
-
-#: src/app/handlers.py:50
-msgid "What is your age?"
-msgstr "Сколько вам лет?"
-
-#: src/app/handlers.py:54
-msgid "What is your email?"
-msgstr "Какой у вас email?"
-
-#: src/app/handlers.py:58
-msgid "What is your city?"
-msgstr "Какой у вас город?"
-
-#: src/app/handlers.py:62
-msgid ""
-"Thank you for sharing! Here is a summary of your information:\n"
-"First Name: {first_name}\n"
-"Last Name: {last_name}\n"
-"Sex: {sex}\n"
-"Age: {age}\n"
-"Email: {email}\n"
-"City: {city}"
 msgstr ""
-"Спасибо за информацию! Вот сводка о ваших данных:\n"
-"Имя: {first_name}\n"
-"Фамилия: {last_name}\n"
-"Пол: {sex}\n"
-"Возраст: {age}\n"
-"Email: {email}\n"
-"Город: {city}"
 
-#: src/app/handlers.py:66
-msgid "Please enter a valid number for age."
-msgstr "Пожалуйста, введите корректное число для возраста."
+#: already_registered
+msgid "You are already registered."
+msgstr ""
 
-#: src/app/handlers.py:70
+#: get_me
+msgid "You do not have an account. Proceed with registration by /add_me."
+msgstr ""
+
+#: get_me2
+msgid "Your account already exists."
+msgstr ""
+
+#: cancel_command
 msgid "Your information has been cleared. Type /start to begin again."
-msgstr "Ваша информация была удалена. Наберите /start, чтобы начать заново."
+msgstr ""
 
-#: src/app/handlers.py:200
+#: ask_last_name
+msgid "What is your last name?"
+msgstr ""
+
+#: ask_sex
+msgid "What is your sex? (male/female)"
+msgstr ""
+
+#: sex_get_response_error
+msgid "Please enter 'male' or 'female'."
+msgstr ""
+
+#: ask_age
+msgid "What is your age?"
+msgstr ""
+
+#: ask_email
+msgid "What is your email?"
+msgstr ""
+
+#: ask_city
+msgid "What is your city?"
+msgstr ""
+
+#: header
+msgid "Thank you for sharing! Here is a summary of your information:\n"
+msgstr ""
+
+#: first_name
+msgid "First Name: {first_name}\n"
+msgstr ""
+
+#: last_name
+msgid "Last Name: {last_name}\n"
+msgstr ""
+
+#: sex
+msgid "Sex: {sex}\n"
+msgstr ""
+
+#: age
+msgid "Age: {age}\n"
+msgstr ""
+
+#: email
+msgid "Email: {email}\n"
+msgstr ""
+
+#: city
+msgid "City: {city}"
+msgstr ""
+
+#: age_incorrect
+msgid "Please enter a valid number for age."
+msgstr ""
+
+#: language_changed
 msgid "Language has been changed"
-msgstr "Язык был изменен"
+msgstr ""
