@@ -2,8 +2,7 @@ from typing import Optional
 
 from src.bot_instance import i18n
 
-# users_lang = {}
-users_lang = {123: 'ru'}
+users_lang = {}
 
 class Translated_Language:
     # Словарь для хранения информации о языке пользователя
@@ -34,6 +33,8 @@ class Translated_Language:
         "city": "City: {city}",
         "age_incorrect": "Please enter a valid number for age.",
         "language_changed": "Language has been changed",
+        "male": "male",
+        "female": "female",
     }
 
     @staticmethod
@@ -73,3 +74,8 @@ class Translated_Language:
             msg += res
         return msg
 
+class ControllText(Translated_Language):
+    control_sex: list = ['male', 'female', 'мужской', 'женский', 'maschile', 'femminile']
+    def control(self, word, user_id_msg):
+        if word in ControllText.control_sex:
+            return ControllText.return_translated_text(word, id_ = user_id_msg)

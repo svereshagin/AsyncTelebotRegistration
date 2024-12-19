@@ -12,28 +12,18 @@ def languages_keyboard():
             [
                 InlineKeyboardButton(text="English", callback_data="en"),
                 InlineKeyboardButton(text="Русский", callback_data="ru"),
-                InlineKeyboardButton(text="O'zbekcha", callback_data="uz_Latn"),
+                InlineKeyboardButton(text="Italiano", callback_data="it"),
             ]
         ]
     )
 
-
-def clicker_keyboard(_):
+def sex_choose_keyboard(male: str ,female: str):
+    """male and female params are generated in the sex_choose function in module handlers"""
     return InlineKeyboardMarkup(
         keyboard=[
             [
-                InlineKeyboardButton(text=_("click"), callback_data="click"),
+                InlineKeyboardButton(male, callback_data="male"),
+                InlineKeyboardButton(female, callback_data="female"),
             ]
         ]
     )
-
-
-def menu_keyboard(_):
-    keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(
-        KeyboardButton(text=_("My user id")),
-        KeyboardButton(text=_("My user name")),
-        KeyboardButton(text=_("My first name")),
-    )
-
-    return keyboard

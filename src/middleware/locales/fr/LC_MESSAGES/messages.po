@@ -2,104 +2,95 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
+"Language: fr\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: start_greeting
-msgid ""
-"Hello! What is your first name?\n"
-"You can skip the process with /cancel command."
-msgstr ""
-"Ciao! Qual è il tuo nome?\n"
-"Puoi saltare il processo con il comando /cancel."
+msgid "Hello! What is your first name?\nYou can skip the process with /cancel command."
+msgstr "Bonjour ! Quel est votre prénom ?\nVous pouvez passer le processus avec la commande /cancel."
 
 #: already_registered
 msgid "You are already registered."
-msgstr "Sei già registrato."
+msgstr "Vous êtes déjà enregistré."
 
 #: get_me
 msgid "You do not have an account. Proceed with registration by /add_me."
-msgstr "Non hai un account. Procedi con la registrazione usando /add_me."
+msgstr "Vous n'avez pas de compte. Procédez à l'enregistrement avec /add_me."
 
 #: get_me2
 msgid "Your account already exists."
-msgstr "Il tuo account esiste già."
+msgstr "Votre compte existe déjà."
 
 #: cancel_command
 msgid "Your information has been cleared. Type /start to begin again."
-msgstr "Le tue informazioni sono state cancellate. Digita /start per ricominciare."
+msgstr "Vos informations ont été effacées. Tapez /start pour recommencer."
 
 #: ask_last_name
 msgid "What is your last name?"
-msgstr "Qual è il tuo cognome?"
+msgstr "Quel est votre nom de famille ?"
 
 #: ask_sex
 msgid "What is your sex? (male/female)"
-msgstr "Qual è il tuo sesso? (maschile/femminile)"
+msgstr "Quel est votre sexe ? (homme/femme)"
 
 #: sex_get_response_error
 msgid "Please enter 'male' or 'female'."
-msgstr "Per favore, inserisci 'maschile' o 'femminile'."
+msgstr "Veuillez entrer 'homme' ou 'femme'."
 
 #: ask_age
 msgid "What is your age?"
-msgstr "Qual è la tua età?"
+msgstr "Quel âge avez-vous ?"
 
 #: ask_email
 msgid "What is your email?"
-msgstr "Qual è la tua email?"
+msgstr "Quelle est votre adresse email ?"
 
 #: ask_city
 msgid "What is your city?"
-msgstr "In quale città vivi?"
+msgstr "Quelle est votre ville ?"
 
 #: header
 msgid "Thank you for sharing! Here is a summary of your information:\n"
-msgstr "Grazie per aver condiviso! Ecco un riepilogo delle tue informazioni:\n"
+msgstr "Merci pour votre partage ! Voici un résumé de vos informations :\n"
 
 #: first_name
 msgid "First Name: {first_name}\n"
-msgstr "Nome: {first_name}\n"
+msgstr "Prénom : {first_name}\n"
 
 #: last_name
 msgid "Last Name: {last_name}\n"
-msgstr "Cognome: {last_name}\n"
+msgstr "Nom : {last_name}\n"
 
 #: sex
 msgid "Sex: {sex}\n"
-msgstr "Sesso: {sex}\n"
+msgstr "Sexe : {sex}\n"
 
 #: age
 msgid "Age: {age}\n"
-msgstr "Età: {age}\n"
+msgstr "Âge : {age}\n"
 
 #: email
 msgid "Email: {email}\n"
-msgstr "Email: {email}\n"
+msgstr "Email : {email}\n"
 
 #: city
 msgid "City: {city}"
-msgstr "Città: {city}"
+msgstr "Ville : {city}"
 
 #: age_incorrect
 msgid "Please enter a valid number for age."
-msgstr "Per favore, inserisci un numero valido per l'età."
+msgstr "Veuillez entrer un nombre valide pour l'âge."
 
 #: language_changed
 msgid "Language has been changed"
-msgstr "La lingua è stata cambiata"
+msgstr "La langue a été modifiée"
 
 #: sex choose function
-msgid
-"male"
-msgstr
-"maschile"
+msgid "male"
+msgstr "masculin"
 
-msgid
-"female"
-msgstr
-"femminile"
+msgid "female"
+msgstr "féminin"

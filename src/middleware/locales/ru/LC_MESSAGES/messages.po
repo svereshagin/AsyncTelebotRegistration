@@ -15,79 +15,92 @@ msgid ""
 "Hello! What is your first name?\n"
 "You can skip the process with /cancel command."
 msgstr ""
+"Привет! Как вас зовут?\n"
+"Вы можете пропустить процесс, используя команду /cancel."
 
 #: already_registered
 msgid "You are already registered."
-msgstr ""
+msgstr "Вы уже зарегистрированы."
 
 #: get_me
 msgid "You do not have an account. Proceed with registration by /add_me."
-msgstr ""
+msgstr "У вас нет аккаунта. Пожалуйста, начните регистрацию с помощью команды /add_me."
 
 #: get_me2
 msgid "Your account already exists."
-msgstr ""
+msgstr "Ваш аккаунт уже существует."
 
 #: cancel_command
 msgid "Your information has been cleared. Type /start to begin again."
-msgstr ""
+msgstr "Ваша информация была очищена. Введите /start, чтобы начать заново."
 
 #: ask_last_name
 msgid "What is your last name?"
-msgstr ""
+msgstr "Какова ваша фамилия?"
 
 #: ask_sex
 msgid "What is your sex? (male/female)"
-msgstr ""
+msgstr "Какой у вас пол? (мужской/женский)"
 
 #: sex_get_response_error
 msgid "Please enter 'male' or 'female'."
-msgstr ""
+msgstr "Пожалуйста, введите 'мужской' или 'женский'."
 
 #: ask_age
 msgid "What is your age?"
-msgstr ""
+msgstr "Сколько вам лет?"
 
 #: ask_email
 msgid "What is your email?"
-msgstr ""
+msgstr "Какой у вас адрес электронной почты?"
 
 #: ask_city
 msgid "What is your city?"
-msgstr ""
+msgstr "В каком городе вы живете?"
 
 #: header
 msgid "Thank you for sharing! Here is a summary of your information:\n"
-msgstr ""
+msgstr "Спасибо за информацию! Вот краткое резюме ваших данных:\n"
 
 #: first_name
 msgid "First Name: {first_name}\n"
-msgstr ""
+msgstr "Имя: {first_name}\n"
 
 #: last_name
 msgid "Last Name: {last_name}\n"
-msgstr ""
+msgstr "Фамилия: {last_name}\n"
 
 #: sex
 msgid "Sex: {sex}\n"
-msgstr ""
+msgstr "Пол: {sex}\n"
 
 #: age
 msgid "Age: {age}\n"
-msgstr ""
+msgstr "Возраст: {age}\n"
 
 #: email
 msgid "Email: {email}\n"
-msgstr ""
+msgstr "Электронная почта: {email}\n"
 
 #: city
 msgid "City: {city}"
-msgstr ""
+msgstr "Город: {city}"
 
 #: age_incorrect
 msgid "Please enter a valid number for age."
-msgstr ""
+msgstr "Пожалуйста, введите корректное число для возраста."
 
 #: language_changed
 msgid "Language has been changed"
-msgstr ""
+msgstr "Язык изменён на русский"
+
+#: sex choose function
+msgid
+"male"
+msgstr
+"мужской"
+
+msgid
+"female"
+msgstr
+"женский"

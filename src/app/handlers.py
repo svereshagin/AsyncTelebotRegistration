@@ -6,8 +6,10 @@ from telebot import types
 from telebot.states import State, StatesGroup
 from telebot.states.asyncio.context import StateContext
 from telebot.types import ReplyParameters
-from src.middleware.i18n_middleware import keyboards
-from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN
+from src.app import keyboards
+from src.app.text_vars_handlers_ import users_lang, ControllText as CTRLTEXT, Translated_Language as TRAN
+
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -91,19 +93,31 @@ def register_handlers(bot):
     # Handler for last name input
     @bot.message_handler(state=RegistrateUser.waiting_for_last_name)
     async def last_name_get(message: types.Message, state: StateContext):
-        await state.set(RegistrateUser.waiting_for_sex)
-        text = TRAN.return_translated_text("ask_sex", id_=message.from_user.id)
+        # Сохраняем фамилию и переходим к следующему состоянию
         await state.add_data(last_name=message.text)
+
+        # Отправляем сообщение с просьбой выбрать пол
+        text = TRAN.return_translated_text("ask_sex", id_=message.from_user.id)
+        await state.set(RegistrateUser.waiting_for_sex)
+
+        # Вызов функции для отправки инлайн клавиатуры
+        await choose_sex_keyboard(message)
+
+    async def choose_sex_keyboard(message: types.Message):
+        to_user = TRAN.return_translated_text("choose_sex", message.from_user.id)
+        male_button = TRAN.return_translated_text("male", message.from_user.id)
+        female_button = TRAN.return_translated_text("female", message.from_user.id)
+
         await bot.send_message(
             message.chat.id,
-            text,
-            reply_parameters=ReplyParameters(message_id=message.message_id),
+            text=to_user,
+            reply_markup=keyboards.sex_choose_keyboard(male=male_button, female=female_button),
         )
 
     # Handler for sex input
     @bot.message_handler(state=RegistrateUser.waiting_for_sex)
     async def sex_get(message: types.Message, state: StateContext):
-        if message.text.lower() in ["male", "female"]:
+        if message.text.lower() in CTRLTEXT.control_sex:
             await state.set(RegistrateUser.waiting_for_age)
             text = TRAN.return_translated_text("ask_age", id_=message.from_user.id)
             await state.add_data(sex=message.text)
@@ -185,19 +199,27 @@ def register_handlers(bot):
         )
         await state.delete()
 
-        msg = TRAN.format_thank_you_message(message.from_user.id, user_data)
-
-
     @bot.message_handler(commands="lang")
     async def change_language_handler(message: types.Message):
         await bot.send_message(
             message.chat.id,
-            "Choose language\nВыберите язык\nTilni tanlang",
+            "Choose language\nВыберите язык\nPick Language",
             reply_markup=keyboards.languages_keyboard(),
         )
 
+    @bot.message_handler(commands="choose_sex_keyboard")
+    async def choose_sex_keyboard(message: types.Message):
+        to_user = TRAN.return_translated_text("choose_sex", message.from_user.id)
+        male_button = TRAN.return_translated_text("male", message.from_user.id)
+        female_button = TRAN.return_translated_text("female", message.from_user.id)
+        await bot.send_message(
+            message.chat.id,
+            text=to_user,
+            reply_markup=keyboards.sex_choose_keyboard(male=male_button, female=female_button),
+        )
+
     @bot.callback_query_handler(
-        func=None, text=TextFilter(contains=["en", "ru", "uz_Latn"])
+        func=None, text=TextFilter(contains=["en", "ru", "it"])
     )
     async def language_handler(call: types.CallbackQuery):
         lang = call.data
