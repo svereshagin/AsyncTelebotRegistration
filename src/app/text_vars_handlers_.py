@@ -6,12 +6,16 @@ users_lang = {}
 
 class Translated_Language:
     # Словарь для хранения информации о языке пользователя
-
+    langvs = ["fr", 'ru', 'it', 'en']
     # Словарь с переводами
     TRANSLATED = {
         #start
-        "start_greeting": "Hello! What is your first name?\nYou can skip the process with /cancel command.", #also for registration
+        "start": "Hello! Proceed with the registration\nYou can skip the process with /cancel command.\n"
+                 "Also you can return to registration with\n /registration or /start commands", #also for registration
         "already_registered": "You are already registered.",
+        "ask_name": "What is your name?",
+        "Choose_sex": "Choose_sex",
+        "data_received": "data_received",
         #get_me handler
         "get_me": "You do not have an account. Proceed with registration by /add_me.",
         "get_me2": "Your account already exists.",
@@ -61,6 +65,7 @@ class Translated_Language:
     @staticmethod
     def format_thank_you_message(user_id_msg, data: dict):
         # Формируем строку с данными
+        data['sex'] = 'male' if data['sex'] == 0 else 'female'
         msg = ""
         for key in ["header", "first_name", "last_name", "sex", "age", "email", "city"]:
             if key == 'header':

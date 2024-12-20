@@ -13,11 +13,12 @@ def languages_keyboard():
                 InlineKeyboardButton(text="English", callback_data="en"),
                 InlineKeyboardButton(text="Русский", callback_data="ru"),
                 InlineKeyboardButton(text="Italiano", callback_data="it"),
+                InlineKeyboardButton(text="Francese", callback_data="fr"),
             ]
         ]
     )
 
-def sex_choose_keyboard(male: str ,female: str):
+def sex_choose_keyboard(male,female):
     """male and female params are generated in the sex_choose function in module handlers"""
     return InlineKeyboardMarkup(
         keyboard=[

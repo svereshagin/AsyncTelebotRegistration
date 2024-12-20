@@ -12,11 +12,21 @@ msgstr ""
 
 #: start_greeting
 msgid ""
-"Hello! What is your first name?\n"
-"You can skip the process with /cancel command."
+"Hello! Proceed with the registration\nYou can skip the process with /cancel command.\n"
+"Also you can return to registration with\n /registration or /start commands"
 msgstr ""
-"Привет! Как вас зовут?\n"
-"Вы можете пропустить процесс, используя команду /cancel."
+"Здравствуйте! Продолжите регистрацию\nВы можете пропустить процесс с помощью команды /cancel.\n"
+"Также вы можете вернуться к регистрации с помощью команд /registration или /start."
+
+#: перевести
+msgid "What is your name?"
+msgstr "Здравствуйте! Как вас зовут?"
+
+msgid "Choose_sex"
+msgstr "Выберите_пол"
+
+msgid "Data received"
+msgstr "Данные получены"
 
 #: already_registered
 msgid "You are already registered."

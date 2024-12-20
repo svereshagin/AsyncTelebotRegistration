@@ -6,6 +6,8 @@ from sqlalchemy.future import select
 
 @connection
 async def get_users(telegram_id: str, session) -> int:
+    """Вощвращает результат операции булевым значением
+        необходимо передать параметр telegram_id"""
     try:
         # Выполняем запрос с фильтрацией по telegram_id
         res = await session.execute(

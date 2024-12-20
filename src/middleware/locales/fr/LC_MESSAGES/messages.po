@@ -9,8 +9,22 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid "Hello! What is your first name?\nYou can skip the process with /cancel command."
-msgstr "Bonjour ! Quel est votre prénom ?\nVous pouvez passer le processus avec la commande /cancel."
+msgid ""
+"Hello! Proceed with the registration\nYou can skip the process with /cancel command.\n"
+"Also you can return to registration with\n /registration or /start commands"
+msgstr ""
+"Bonjour! Procédez à l'enregistrement\nVous pouvez passer le processus avec la commande /cancel.\n"
+"Vous pouvez également revenir à l'enregistrement avec\n les commandes /registration ou /start."
+
+#: перевести
+msgid "What is your name?"
+msgstr "Bonjour! Quel est votre nom?"
+
+msgid "Choose_sex"
+msgstr "Choisissez_sexe"
+
+msgid "Data received"
+msgstr "Données reçues"
 
 #: already_registered
 msgid "You are already registered."
