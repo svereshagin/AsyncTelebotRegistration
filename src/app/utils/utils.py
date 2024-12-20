@@ -1,4 +1,5 @@
-from src.app import keyboards
+from src.app.utils import keyboards
+
 
 async def send_language_selection_keyboard(chat_id, bot: object):
     await bot.send_message(
@@ -11,7 +12,7 @@ async def send_sex_selection_keyboard(translated_text, chat_id, bot: object, mal
     await bot.send_message(
         chat_id,
         "Choose your Sex",
-        reply_markup=keyboards.sex_choose_keyboard(male,female)
+        reply_markup=keyboards.sex_choose_keyboard(male, female)
     )
 
 
