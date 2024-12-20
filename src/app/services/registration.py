@@ -5,7 +5,7 @@ from src.app.utils.utils import send_language_selection_keyboard, send_sex_selec
 from src.app.states import RegistrateUser
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
-from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN, ControllText as CTRLTEXT
+from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN
 from telebot.types import ReplyParameters
 
 
@@ -67,7 +67,8 @@ async def handle_sex_selection(bot, call: types.CallbackQuery, state: StateConte
     await bot.send_message(call.message.chat.id, text)
 
     await state.set(RegistrateUser.waiting_for_age)
-    await bot.send_message(call.from_user.id, "Please enter your age.")
+    text = TRAN.return_translated_text("ask_age", id_=call.from_user.id)
+    await bot.send_message(call.from_user.id, text)
 
 # Function for handling age input
 async def handle_age_input(bot, message: types.Message, state: StateContext):
