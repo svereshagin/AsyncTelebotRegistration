@@ -1,4 +1,5 @@
 import logging
+import re
 from telebot import types
 from telebot.states.asyncio.context import StateContext
 from src.app.utils.utils import send_language_selection_keyboard, send_sex_selection_keyboard
@@ -72,14 +73,24 @@ async def handle_sex_selection(bot, call: types.CallbackQuery, state: StateConte
 
 # Function for handling age input
 async def handle_age_input(bot, message: types.Message, state: StateContext):
-    await state.set(RegistrateUser.waiting_for_email)
-    await state.add_data(age=message.text)
-    text = TRAN.return_translated_text("data_received", id_=message.from_user.id)
-    await bot.send_message(message.chat.id, text)
-    text = TRAN.return_translated_text("ask_email", id_=message.from_user.id)
-    await bot.send_message(message.chat.id, text)
+    pattern = r'^[0-9]{1,2}$'
 
-# Function for handling incorrect age input
+    if re.match(pattern, message.text):
+        age = int(message.text)
+        if age < 0 or age > 120:
+            await handle_incorrect_age(bot, message)
+            return
+
+        await state.set(RegistrateUser.waiting_for_email)
+        await state.add_data(age=age)
+        text = TRAN.return_translated_text("data_received", id_=message.from_user.id)
+        await bot.send_message(message.chat.id, text)
+        text = TRAN.return_translated_text("ask_email", id_=message.from_user.id)
+        await bot.send_message(message.chat.id, text)
+    else:
+        await handle_incorrect_age(bot, message)
+
+
 async def handle_incorrect_age(bot, message: types.Message):
     text = TRAN.return_translated_text("age_incorrect", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
