@@ -39,6 +39,9 @@ class Translated_Language:
         "language_changed": "Language has been changed",
         "male": "male",
         "female": "female",
+        "any_yes_button": "yes",
+        "any_no_button": "no",
+        "show_rules_question": "rules"
     }
 
     @staticmethod

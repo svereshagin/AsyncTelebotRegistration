@@ -8,13 +8,22 @@ async def send_language_selection_keyboard(chat_id, bot: object):
         reply_markup=keyboards.languages_keyboard(),
     )
 
+
 async def send_sex_selection_keyboard(translated_text, chat_id, bot: object, male, female):
     await bot.send_message(
         chat_id,
-        "Choose your Sex",
+        translated_text,
         reply_markup=keyboards.sex_choose_keyboard(male, female)
     )
 
+
+async def send_rules_agreement_keyboard(text, chat_id, bot: object, button1, button2):
+    print(text)
+    await bot.send_message(
+        chat_id,
+        text,
+        reply_markup=keyboards.any_agree_keyboard(button1, button2)
+    )
 
 
     # @bot.message_handler(commands="get_me")

@@ -108,3 +108,12 @@ msgstr "masculin"
 
 msgid "female"
 msgstr "féminin"
+
+msgid "yes"
+msgstr "si"
+
+msgid "no"
+msgstr "no"
+
+msgid "rules"
+msgstr "rules"

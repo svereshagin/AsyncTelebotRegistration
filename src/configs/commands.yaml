@@ -11,4 +11,10 @@ commands:
   - command: "add_me"
     description: "Добавляет пользователя в БД"
     response: "Вы были добавлены в БД"
+  - command: "lang"
+    description: "Вызывает смену языка"
+    response: "Смена языка"
+  - command: "show_rules"
+    description: "показать правила"
+    response: "правила"
 #

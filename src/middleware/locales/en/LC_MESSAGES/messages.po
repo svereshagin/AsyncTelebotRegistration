@@ -92,3 +92,12 @@ msgstr "Please enter a valid number for age."
 #: language_changed
 msgid "Language has been changed"
 msgstr "Language has been changed"
+
+msgid "yes"
+msgstr "yes"
+
+msgid "no"
+msgstr "no"
+
+msgid "rules"
+msgstr "rules"

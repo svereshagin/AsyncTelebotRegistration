@@ -13,12 +13,21 @@ from src.app.services.registration import (
     handle_email_input,
     handle_city_input,
     handle_any_state,
+    show_rules
 )
 
 def register_handlers(bot):
     @bot.message_handler(commands=["start"])
     async def start_handler(message: types.Message, state: StateContext):
         await handle_start(bot, message, state)
+
+    @bot.message_handler(commands=['show_rules'])
+    async def rules_handler(msg: types.Message):
+        await show_rules(bot, msg)
+
+    @bot.message_handler(state="*", commands=["cancel"])
+    async def any_state(message: types.Message, state: StateContext):
+        await handle_any_state(bot, message, state)
 
     @bot.message_handler(commands=["lang"])
     async def change_language_handler(message: types.Message):
@@ -53,7 +62,3 @@ def register_handlers(bot):
     @bot.message_handler(state=RegistrateUser.waiting_for_city)
     async def city_get(message: types.Message, state: StateContext):
         await handle_city_input(bot, message, state)
-
-    @bot.message_handler(state="*", commands=["cancel"])
-    async def any_state(message: types.Message, state: StateContext):
-        await handle_any_state(bot, message, state)

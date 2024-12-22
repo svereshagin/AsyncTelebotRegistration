@@ -2,7 +2,8 @@ import logging
 import re
 from telebot import types
 from telebot.states.asyncio.context import StateContext
-from src.app.utils.utils import send_language_selection_keyboard, send_sex_selection_keyboard
+from src.app.utils.utils import (send_language_selection_keyboard, send_sex_selection_keyboard,
+                                 send_rules_agreement_keyboard)
 from src.app.states import RegistrateUser
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
@@ -30,6 +31,9 @@ async def handle_start(bot, message: types.Message, state: StateContext):
 # Function for handling language change command
 async def handle_change_language(bot, message: types.Message):
     await send_language_selection_keyboard(message.chat.id, bot)
+
+# async def handle_langv_selection(bot, message: types.Message):
+#     await send_language_selection_keyboard(message.chat.id, bot)
 
 # Function for handling language selection
 async def handle_language_selection(bot, call: types.CallbackQuery, state: StateContext):
@@ -144,3 +148,14 @@ async def handle_any_state(bot, message: types.Message, state: StateContext):
     await state.delete()
     text = TRAN.return_translated_text("cancel_command", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
+
+
+async def show_rules(bot, message: types.Message):
+    await bot.delete_message(message.chat.id, message.message_id)
+    text = TRAN.return_translated_text("show_rules", id_=message.from_user.id)
+    print(text)
+    button_text_yes = TRAN.return_translated_text("any_yes_button", id_=message.from_user.id)
+    button_text_no = TRAN.return_translated_text("any_no_button", id_=message.from_user.id)
+    button_question = TRAN.return_translated_text("show_rules_question", id_=message.from_user.id)
+    bot.send_message(message.chat.id, text)
+    await send_rules_agreement_keyboard(button_question, message.chat.id, bot, button_text_yes, button_text_no)

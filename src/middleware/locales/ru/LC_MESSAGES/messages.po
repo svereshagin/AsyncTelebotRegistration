@@ -114,3 +114,12 @@ msgid
 "female"
 msgstr
 "женский"
+
+msgid "yes"
+msgstr "да"
+
+msgid "no"
+msgstr "нет"
+
+msgid "rules"
+msgstr "правила"

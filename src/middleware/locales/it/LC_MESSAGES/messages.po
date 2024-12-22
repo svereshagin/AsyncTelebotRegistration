@@ -112,3 +112,12 @@ msgid
 "female"
 msgstr
 "femminile"
+
+msgid "yes"
+msgstr "si"
+
+msgid "no"
+msgstr "no"
+
+msgid "rules"
+msgstr "rules"
