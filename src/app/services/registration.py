@@ -4,7 +4,7 @@ from telebot import types
 from telebot.states.asyncio.context import StateContext
 from src.app.utils.utils import (send_language_selection_keyboard, send_sex_selection_keyboard,
                                  send_rules_agreement_keyboard)
-from src.app.states import RegistrateUser
+from src.app.states import RegistrateUser, AgreementRules
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
 from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN
@@ -150,7 +150,7 @@ async def handle_any_state(bot, message: types.Message, state: StateContext):
     await bot.send_message(message.chat.id, text)
 
 
-async def show_rules(bot, message: types.Message):
+async def show_rules(bot, message: types.Message, state: StateContext):
     await bot.delete_message(message.chat.id, message.message_id)
     text = TRAN.return_translated_text("show_rules", id_=message.from_user.id)
     print(text)
@@ -159,3 +159,15 @@ async def show_rules(bot, message: types.Message):
     button_question = TRAN.return_translated_text("show_rules_question", id_=message.from_user.id)
     bot.send_message(message.chat.id, text)
     await send_rules_agreement_keyboard(button_question, message.chat.id, bot, button_text_yes, button_text_no)
+
+    await state.set(AgreementRules .waiting_for_agreement)
+
+async def handle_rules_acceptance(bot, call: types.CallbackQuery, state: StateContext):
+    if call.data == 'yes':
+        # Логика для принятия правил
+        await bot.send_message(call.from_user.id, "Вы приняли правила!")
+        #прописать запись в сессии/в БД(скорее в бд пометку нужно)
+    else:
+        await bot.send_message(call.from_user.id, "Вы отклонили правила.")
+        await state.delete()  # Удаляем состояние, если пользователь отклонил правила
+

@@ -1,6 +1,6 @@
 from telebot import types
 from telebot.states.asyncio.context import StateContext
-from src.app.states import RegistrateUser
+from src.app.states import RegistrateUser, AgreementRules
 from src.app.text_vars_handlers_ import Translated_Language
 from src.app.services.registration import (
     handle_start,
@@ -13,7 +13,7 @@ from src.app.services.registration import (
     handle_email_input,
     handle_city_input,
     handle_any_state,
-    show_rules
+    show_rules, handle_rules_acceptance
 )
 
 def register_handlers(bot):
@@ -22,8 +22,8 @@ def register_handlers(bot):
         await handle_start(bot, message, state)
 
     @bot.message_handler(commands=['show_rules'])
-    async def rules_handler(msg: types.Message):
-        await show_rules(bot, msg)
+    async def rules_handler(message: types.Message, state: StateContext):
+        await show_rules(bot, message, state)
 
     @bot.message_handler(state="*", commands=["cancel"])
     async def any_state(message: types.Message, state: StateContext):
@@ -62,3 +62,8 @@ def register_handlers(bot):
     @bot.message_handler(state=RegistrateUser.waiting_for_city)
     async def city_get(message: types.Message, state: StateContext):
         await handle_city_input(bot, message, state)
+
+
+    @bot.callback_query_handler(func=lambda call: call.data in ['yes', 'no'], state=AgreementRules .waiting_for_agreement)
+    async def rules_acceptance_handler(call: types.CallbackQuery, state: StateContext):
+        await handle_rules_acceptance(bot, call, state)

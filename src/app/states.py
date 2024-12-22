@@ -9,3 +9,10 @@ class RegistrateUser(StatesGroup):
     waiting_for_email: State = State()
     waiting_for_city: State = State()
     waiting_for_language: State = State()
+
+
+class AgreementRules(StatesGroup):
+    waiting_for_agreement: State = State()
+
+class LanguageChanger(StatesGroup):
+    waiting_for_language: State = State()
