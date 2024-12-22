@@ -35,8 +35,8 @@ def any_agree_keyboard(button1, button2):
     return InlineKeyboardMarkup(
         keyboard=[
             [
-                InlineKeyboardButton(button1, callback_data="male"),
-                InlineKeyboardButton(button2, callback_data="female"),
+                InlineKeyboardButton(button1, callback_data="yes"),
+                InlineKeyboardButton(button2, callback_data="no"),
             ]
         ]
     )

@@ -157,17 +157,16 @@ async def show_rules(bot, message: types.Message, state: StateContext):
     button_text_yes = TRAN.return_translated_text("any_yes_button", id_=message.from_user.id)
     button_text_no = TRAN.return_translated_text("any_no_button", id_=message.from_user.id)
     button_question = TRAN.return_translated_text("show_rules_question", id_=message.from_user.id)
-    bot.send_message(message.chat.id, text)
+    await bot.send_message(message.chat.id, text)
     await send_rules_agreement_keyboard(button_question, message.chat.id, bot, button_text_yes, button_text_no)
 
     await state.set(AgreementRules .waiting_for_agreement)
 
 async def handle_rules_acceptance(bot, call: types.CallbackQuery, state: StateContext):
+    print("Обработчик принятия правил сработал")
     if call.data == 'yes':
-        # Логика для принятия правил
         await bot.send_message(call.from_user.id, "Вы приняли правила!")
-        #прописать запись в сессии/в БД(скорее в бд пометку нужно)
+        # Логика для записи в БД
     else:
         await bot.send_message(call.from_user.id, "Вы отклонили правила.")
-        await state.delete()  # Удаляем состояние, если пользователь отклонил правила
-
+        await state.delete()

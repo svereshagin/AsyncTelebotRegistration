@@ -63,7 +63,7 @@ def register_handlers(bot):
     async def city_get(message: types.Message, state: StateContext):
         await handle_city_input(bot, message, state)
 
-
-    @bot.callback_query_handler(func=lambda call: call.data in ['yes', 'no'], state=AgreementRules .waiting_for_agreement)
+    @bot.callback_query_handler(func=lambda call: call.data in ['yes', 'no'],
+                                state=AgreementRules.waiting_for_agreement)
     async def rules_acceptance_handler(call: types.CallbackQuery, state: StateContext):
         await handle_rules_acceptance(bot, call, state)
