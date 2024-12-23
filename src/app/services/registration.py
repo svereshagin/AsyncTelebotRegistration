@@ -1,20 +1,28 @@
 import logging
 import re
-from telebot import types
+from telebot import types, TeleBot
 from telebot.states.asyncio.context import StateContext
-from src.app.utils.utils import (send_language_selection_keyboard, send_sex_selection_keyboard,
-                                 send_rules_agreement_keyboard)
-from src.app.states import RegistrateUser, AgreementRules
+from src.app.utils.utils import (send_language_selection_keyboard, send_sex_selection_keyboard)
+from src.app.states import RegistrateUser
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
 from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN
 from telebot.types import ReplyParameters
 
-
 logger = logging.getLogger(__name__)
 
-# Function for handling start command
 async def handle_start(bot, message: types.Message, state: StateContext):
+    """
+    Handles the /start command. Checks if the user is registered, and if not, initiates the registration process.
+
+    Args:
+        bot: Telegram bot instance.
+        message: Incoming message object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     is_registered = await get_users(message.from_user.id)
 
     if is_registered == 1:
@@ -28,15 +36,19 @@ async def handle_start(bot, message: types.Message, state: StateContext):
     await send_language_selection_keyboard(message.chat.id, bot)
     await bot.delete_message(message.chat.id, message.message_id)
 
-# Function for handling language change command
-async def handle_change_language(bot, message: types.Message):
-    await send_language_selection_keyboard(message.chat.id, bot)
 
-# async def handle_langv_selection(bot, message: types.Message):
-#     await send_language_selection_keyboard(message.chat.id, bot)
-
-# Function for handling language selection
 async def handle_language_selection(bot, call: types.CallbackQuery, state: StateContext):
+    """
+    Handles the language selection callback and updates the user's preferred language.
+
+    Args:
+        bot: Telegram bot instance.
+        call: Callback query object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     lang = call.data
     users_lang[call.from_user.id] = lang
     text = TRAN.return_translated_text("language_changed", id_=0, lang_call=lang)
@@ -46,15 +58,37 @@ async def handle_language_selection(bot, call: types.CallbackQuery, state: State
     await state.set(RegistrateUser.waiting_for_name)
     await bot.send_message(call.from_user.id, text=text)
 
-# Function for handling first name input
+
 async def handle_name_input(bot, message: types.Message, state: StateContext):
+    """
+    Handles the user's input for their first name and prompts for their last name.
+
+    Args:
+        bot: Telegram bot instance.
+        message: Incoming message object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     await state.set(RegistrateUser.waiting_for_last_name)
     text = TRAN.return_translated_text("ask_last_name", id_=message.from_user.id)
     await state.add_data(name=message.text)
     await bot.send_message(message.from_user.id, text)
 
-# Function for handling last name input
+
 async def handle_last_name_input(bot, message: types.Message, state: StateContext):
+    """
+    Handles the user's input for their last name and prompts for their sex.
+
+    Args:
+        bot: Telegram bot instance.
+        message: Incoming message object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     await state.add_data(last_name=message.text)
     await state.set(RegistrateUser.waiting_for_sex)
     try:
@@ -66,8 +100,19 @@ async def handle_last_name_input(bot, message: types.Message, state: StateContex
         logger.error(f"Error sending sex selection keyboard: {e}")
         await bot.send_message(message.from_user.id, "An error occurred while trying to send the keyboard.")
 
-# Function for handling sex selection
+
 async def handle_sex_selection(bot, call: types.CallbackQuery, state: StateContext):
+    """
+    Handles the user's selection of their sex and prompts for their age.
+
+    Args:
+        bot: Telegram bot instance.
+        call: Callback query object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     text = TRAN.return_translated_text("data_received", id_=call.from_user.id)
     await bot.send_message(call.message.chat.id, text)
 
@@ -75,8 +120,19 @@ async def handle_sex_selection(bot, call: types.CallbackQuery, state: StateConte
     text = TRAN.return_translated_text("ask_age", id_=call.from_user.id)
     await bot.send_message(call.from_user.id, text)
 
-# Function for handling age input
+
 async def handle_age_input(bot, message: types.Message, state: StateContext):
+    """
+    Handles the user's input for their age and validates it.
+
+    Args:
+        bot: Telegram bot instance.
+        message: Incoming message object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     pattern = r'^[0-9]{1,2}$'
 
     if re.match(pattern, message.text):
@@ -96,11 +152,32 @@ async def handle_age_input(bot, message: types.Message, state: StateContext):
 
 
 async def handle_incorrect_age(bot, message: types.Message):
+    """
+    Notifies the user if their age input is incorrect.
+
+    Args:
+        bot: Telegram bot instance.
+        message: Incoming message object.
+
+    Returns:
+        None
+    """
     text = TRAN.return_translated_text("age_incorrect", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
 
-# Function for handling email input
+
 async def handle_email_input(bot, message: types.Message, state: StateContext):
+    """
+    Handles the user's input for their email and prompts for their city.
+
+    Args:
+        bot: Telegram bot instance.
+        message: Incoming message object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     await state.set(RegistrateUser.waiting_for_city)
     text = TRAN.return_translated_text("data_received", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
@@ -108,8 +185,19 @@ async def handle_email_input(bot, message: types.Message, state: StateContext):
     await state.add_data(email=message.text)
     await bot.send_message(message.chat.id, text)
 
-# Function for handling city input
+
 async def handle_city_input(bot, message: types.Message, state: StateContext):
+    """
+    Handles the user's input for their city and finalizes the registration process.
+
+    Args:
+        bot: Telegram bot instance.
+        message: Incoming message object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     user_data = {}
     text = TRAN.return_translated_text("data_received", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
@@ -143,30 +231,19 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
     )
     await state.delete()
 
-# Function for handling any state cancellation
+
 async def handle_any_state(bot, message: types.Message, state: StateContext):
+    """
+    Handles cancellation of any state.
+
+    Args:
+        bot: Telegram bot instance.
+        message: Incoming message object.
+        state: Context of the current state.
+
+    Returns:
+        None
+    """
     await state.delete()
     text = TRAN.return_translated_text("cancel_command", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
-
-
-async def show_rules(bot, message: types.Message, state: StateContext):
-    await bot.delete_message(message.chat.id, message.message_id)
-    text = TRAN.return_translated_text("show_rules", id_=message.from_user.id)
-    print(text)
-    button_text_yes = TRAN.return_translated_text("any_yes_button", id_=message.from_user.id)
-    button_text_no = TRAN.return_translated_text("any_no_button", id_=message.from_user.id)
-    button_question = TRAN.return_translated_text("show_rules_question", id_=message.from_user.id)
-    await bot.send_message(message.chat.id, text)
-    await send_rules_agreement_keyboard(button_question, message.chat.id, bot, button_text_yes, button_text_no)
-
-    await state.set(AgreementRules .waiting_for_agreement)
-
-async def handle_rules_acceptance(bot, call: types.CallbackQuery, state: StateContext):
-    print("Обработчик принятия правил сработал")
-    if call.data == 'yes':
-        await bot.send_message(call.from_user.id, "Вы приняли правила!")
-        # Логика для записи в БД
-    else:
-        await bot.send_message(call.from_user.id, "Вы отклонили правила.")
-        await state.delete()

@@ -41,7 +41,8 @@ class Translated_Language:
         "female": "female",
         "any_yes_button": "yes",
         "any_no_button": "no",
-        "show_rules_question": "rules"
+        "show_rules_question": "rules",
+        "show_rules": "rules",
     }
 
     @staticmethod
