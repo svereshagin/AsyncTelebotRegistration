@@ -23,6 +23,10 @@ msgstr "Bonjour! Quel est votre nom?"
 msgid "Choose_sex"
 msgstr "Choisissez_sexe"
 
+msgid  "Language: {language}\n"
+msgstr "Language: {language}\n"
+
+
 msgid "Data received"
 msgstr "Données reçues"
 

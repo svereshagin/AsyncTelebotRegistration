@@ -48,6 +48,10 @@ msgstr "Ваша информация была очищена. Введите /s
 msgid "What is your last name?"
 msgstr "Какова ваша фамилия?"
 
+
+msgid  "Language: {language}\n"
+msgstr "Язык: {language}\n"
+
 #: ask_sex
 msgid "What is your sex? (male/female)"
 msgstr "Какой у вас пол? (мужской/женский)"

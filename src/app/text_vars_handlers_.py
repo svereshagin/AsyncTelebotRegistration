@@ -33,6 +33,7 @@ class Translated_Language:
         "last_name": "Last Name: {last_name}\n",
         "sex": "Sex: {sex}\n",
         "age": "Age: {age}\n",
+        "language": "Language: {language}\n",
         "email": "Email: {email}\n",
         "city": "City: {city}",
         "age_incorrect": "Please enter a valid number for age.",
@@ -71,7 +72,7 @@ class Translated_Language:
         # Формируем строку с данными
         data['sex'] = 'male' if data['sex'] == 0 else 'female'
         msg = ""
-        for key in ["header", "first_name", "last_name", "sex", "age", "email", "city"]:
+        for key in ["header",'language', "first_name", "last_name", "sex", "age", "email", "city"]:
             if key == 'header':
                 # Если ключ - header, используем значение напрямую
                 res = Translated_Language.return_translated_text(key, id_=user_id_msg)

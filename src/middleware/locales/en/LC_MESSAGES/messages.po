@@ -21,6 +21,8 @@ msgstr ""
 msgid "You are already registered."
 msgstr "You are already registered."
 
+msgid  "Language: {language}\n"
+msgstr "Language: {language}\n"
 #: get_me
 msgid "You do not have an account. Proceed with registration by /add_me."
 msgstr "You do not have an account. Proceed with registration by /add_me."

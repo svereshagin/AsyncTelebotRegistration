@@ -26,6 +26,10 @@ msgstr "Qual è il tuo nome?"
 msgid "Data received"
 msgstr "Data ricevuta"
 
+
+msgid  "Language: {language}\n"
+msgstr "Linguo: {language}\n"
+
 #: already_registered
 msgid "You are already registered."
 msgstr "Sei già registrato."

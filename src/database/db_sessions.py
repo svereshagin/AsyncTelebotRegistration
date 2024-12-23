@@ -1,7 +1,71 @@
+from sqlalchemy.orm.sync import update
+
 from src.database.database import Base, engine, connection
 from src.database.models import User
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy import update
+
+@connection
+async def update_param(telegram_id: int, param: str, value, session: AsyncSession):
+    """
+    Обновление значения параметра по `telegram_id` в таблице User.
+
+    Args:
+        telegram_id (int): Telegram ID пользователя.
+        param (str): Название параметра, которое нужно обновить.
+        value: Новое значение параметра.
+        session (AsyncSession): Сессия для работы с базой данных.
+
+    Returns:
+        bool: True, если обновление прошло успешно, False в случае ошибки.
+    """
+    try:
+        # Проверить, существует ли параметр в модели User
+        if not hasattr(User, param):
+            raise ValueError(f"Параметр '{param}' не найден в модели User.")
+
+        # Выполнить запрос на обновление
+        await session.execute(
+            update(User)
+            .where(User.telegram_id == telegram_id)
+            .values({param: value})
+        )
+
+        # Сохранить изменения
+        await session.commit()
+        return True
+
+    except Exception as e:
+        # Логирование ошибки (если нужно)
+        print(f"Ошибка обновления параметра: {e}")
+        await session.rollback()
+        return False
+
+
+@connection
+async def get_param(telegram_id: int, param: str, session: AsyncSession):
+    """
+    Получение значения параметра по `telegram_id` из таблицы User.
+
+    Args:
+        telegram_id (int): Telegram ID пользователя.
+        param (str): Название параметра, который нужно получить.
+        session (AsyncSession): Сессия для работы с базой данных.
+
+    Returns:
+        значение параметра, либо None, если пользователь или параметр не найден.
+    """
+    try:
+        # Выполнить запрос на получение объекта User по telegram_id
+        res = await session.execute(
+            select(getattr(User, param)).where(User.telegram_id == telegram_id)
+        )
+        result = res.scalar()
+        return result
+    except AttributeError:
+        raise ValueError(f"Параметр '{param}' не найден в модели User.")
+
 
 
 @connection

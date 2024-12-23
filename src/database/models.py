@@ -18,7 +18,7 @@ class User(Base):
         privileges (int): Привилегии пользователя. По умолчанию 0.
         status (int): Статус пользователя. По умолчанию 0.
     """
-
+    language: Mapped[str] = mapped_column(String, nullable=False)
     first_name: Mapped[str] = mapped_column(String, nullable=False)
     last_name: Mapped[str] = mapped_column(String, nullable=False)
     sex: Mapped[int] = mapped_column(SMALLINT, nullable=False)  # 1 = man, 2 = female

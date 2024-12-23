@@ -10,7 +10,7 @@ from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN
 from telebot.types import ReplyParameters
 
 logger = logging.getLogger(__name__)
-
+user_data = {}
 async def handle_start(bot, message: types.Message, state: StateContext):
     """
     Handles the /start command. Checks if the user is registered, and if not, initiates the registration process.
@@ -37,23 +37,26 @@ async def handle_start(bot, message: types.Message, state: StateContext):
     await bot.delete_message(message.chat.id, message.message_id)
 
 
-async def handle_language_selection(bot, call: types.CallbackQuery, state: StateContext):
+async def handle_language_selection(bot, call: types.CallbackQuery, state: StateContext, flag=False):
     """
     Handles the language selection callback and updates the user's preferred language.
 
     Args:
         bot: Telegram bot instance.
         call: Callback query object.
+        flag: additional for lang_command
         state: Context of the current state.
 
     Returns:
         None
     """
+    if flag:
+        return
     lang = call.data
     users_lang[call.from_user.id] = lang
     text = TRAN.return_translated_text("language_changed", id_=0, lang_call=lang)
     await bot.edit_message_text(text, call.from_user.id, call.message.id)
-
+    await state.add_data(language=lang)
     text = TRAN.return_translated_text("ask_name", id_=0, lang_call=lang)
     await state.set(RegistrateUser.waiting_for_name)
     await bot.send_message(call.from_user.id, text=text)
@@ -204,6 +207,7 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
 
     async with state.data() as data:
         user_data = {
+            'language': data.get('language'),
             'first_name': data.get("name"),
             'last_name': data.get("last_name"),
             'sex': 1 if data.get("sex") == "male" else 0,
@@ -212,6 +216,7 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
             'city': message.text,
         }
         user = User(
+            language=user_data["language"],
             first_name=user_data["first_name"],
             last_name=user_data["last_name"],
             sex=user_data['sex'],
