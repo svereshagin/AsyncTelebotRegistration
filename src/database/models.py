@@ -32,7 +32,18 @@ class User(Base):
     )  # Привилегии (например, 0 - стандарт)
     status: Mapped[int] = mapped_column(
         SMALLINT, default=0
-    )  # 0: inactive, 1: in search, 2: in game
+    )
+
+    def __repr__(self):
+        return (f"User language: {self.language}"
+                f"User name:{self.first_name}"
+                f"User last_name:{self.last_name}"
+                f"User sex: {self.sex}"
+                f"User age: {self.age}"
+                f"User email: {self.email}"
+                f"User city:{self.city}")
+
+    # 0: inactive, 1: in search, 2: in game
 
     # Relationships
     # in_game_user: Mapped["InGameUser"] = relationship(

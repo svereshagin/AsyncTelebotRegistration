@@ -14,7 +14,7 @@ user_data = {}
 async def handle_start(bot, message: types.Message, state: StateContext):
     """
     Handles the /start command. Checks if the user is registered, and if not, initiates the registration process.
-
+    If the user is already registered, then we proceed with the main part of the programm and show menu
     Args:
         bot: Telegram bot instance.
         message: Incoming message object.
@@ -26,6 +26,7 @@ async def handle_start(bot, message: types.Message, state: StateContext):
     is_registered = await get_users(message.from_user.id)
 
     if is_registered == 1:
+        #make main part
         text = TRAN.return_translated_text("already_registered", id_=message.from_user.id)
         await bot.send_message(message.from_user.id, text)
         return
@@ -201,36 +202,25 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
     Returns:
         None
     """
-    user_data = {}
     text = TRAN.return_translated_text("data_received", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
-
     async with state.data() as data:
-        user_data = {
-            'language': data.get('language'),
-            'first_name': data.get("name"),
-            'last_name': data.get("last_name"),
-            'sex': 1 if data.get("sex") == "male" else 0,
-            'age': int(data.get("age")),
-            'email': data.get("email"),
-            'city': message.text,
-        }
         user = User(
-            language=user_data["language"],
-            first_name=user_data["first_name"],
-            last_name=user_data["last_name"],
-            sex=user_data['sex'],
-            age=user_data['age'],
+            language = data.get("language"),
+            first_name = data.get("name"),
+            last_name = data.get("last_name"),
+            sex = 1 if data.get("sex") == "male" else 0,
+            age = int(data.get("age")),
             telegram_id=message.from_user.id,
-            email=user_data["email"],
-            city=user_data['city']
+            email = data.get("email"),
+            city = message.text
         )
-    msg = TRAN.format_thank_you_message(message.from_user.id, user_data)
 
+    # msg = TRAN.format_thank_you_message(message.from_user.id, user)
     await add_person(user)
     await bot.send_message(
         message.chat.id,
-        msg,
+        text=user.__repr__(),
         parse_mode="html",
         reply_parameters=ReplyParameters(message_id=message.message_id),
     )

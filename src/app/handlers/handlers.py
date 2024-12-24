@@ -92,19 +92,19 @@ def register_handlers(bot):
 
 
 
-    @bot.message_handler(commands=['accept'])
-    async def accept_handler(message: types.Message):
-        from src.database.db_sessions import get_param, update_param, get_users
-        print(message.text)
-        res = await get_users(message.from_user.id)
-        if res:
-            await bot.send_message(message.from_user.id, text="Phase1 OK")
-            """Phase2"""
-            res = await get_param(message.from_user.id, param='language')
-            await bot.send_message(message.from_user.id, text=res)
-
-            res = await update_param(message.from_user.id, param='language', value='ES')
-            await bot.send_message(message.from_user.id, text=res)
-        else:
-            await bot.send_message(message.from_user.id, text="Phase1 Failed")
+    # @bot.message_handler(commands=['accept'])
+    # async def accept_handler(message: types.Message):
+    #     from src.database.db_sessions import get_param, update_param, get_users
+    #     print(message.text)
+    #     res = await get_users(message.from_user.id)
+    #     if res:
+    #         await bot.send_message(message.from_user.id, text="Phase1 OK")
+    #         """Phase2"""
+    #         res = await get_param(message.from_user.id, param='language')
+    #         await bot.send_message(message.from_user.id, text=res)
+    #
+    #         res = await update_param(message.from_user.id, param='language', value='ES')
+    #         await bot.send_message(message.from_user.id, text=res)
+    #     else:
+    #         await bot.send_message(message.from_user.id, text="Phase1 Failed")
 
