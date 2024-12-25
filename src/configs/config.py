@@ -9,6 +9,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent #src
 TRANSLATIONS_PATH = BASE_DIR / "middleware" / "locales"
 COMMANDS_PATH = BASE_DIR / "configs" / "commands.yaml"
 
+#список директорий-языков
+LANGUAGES = [d.name for d in TRANSLATIONS_PATH.iterdir() if d.is_dir()]
+
+
 
 class Settings(BaseSettings):
     DB_USER: str = os.getenv("POSTGRES_USER")
