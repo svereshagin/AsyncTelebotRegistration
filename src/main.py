@@ -7,7 +7,7 @@ from src.configs.commands import tcm
 
 async def start_bot():
     await reset_database()
-    tcm.set_commands()
+    await tcm.set_start_commands()
     register_handlers(bot)
     print("Bot is running...")
     await bot.polling()
