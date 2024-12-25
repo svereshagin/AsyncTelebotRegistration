@@ -1,14 +1,10 @@
 import telebot
 import yaml
 import os
-
+from src.configs.config import COMMANDS_PATH
 
 async def load_commands():
-    path_to_file = os.path.join(os.path.dirname(__file__), "commands.yaml")
-    print("Текущая рабочая директория:", os.getcwd())  # Для отладки
-    print("Путь к файлу:", path_to_file)  # Для отладки
-
-    with open(path_to_file, "r", encoding="utf-8") as file:
+    with open(COMMANDS_PATH, "r", encoding="utf-8") as file:
         return yaml.safe_load(file)
 
 

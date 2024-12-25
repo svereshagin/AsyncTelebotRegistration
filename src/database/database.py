@@ -2,7 +2,7 @@ from sqlalchemy.orm import DeclarativeBase, declared_attr, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from sqlalchemy import Integer, func
 from datetime import datetime
-from src.config import settings
+from src.configs.config import settings
 
 
 # Конфигурация базы данных

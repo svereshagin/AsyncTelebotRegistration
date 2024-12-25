@@ -1,9 +1,13 @@
 import os
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import List
+from pydantic_settings import BaseSettings
+from pathlib import Path
 
 load_dotenv()
+
+BASE_DIR = Path(__file__).resolve().parent.parent #src
+TRANSLATIONS_PATH = BASE_DIR / "middleware" / "locales"
+COMMANDS_PATH = BASE_DIR / "configs" / "commands.yaml"
 
 
 class Settings(BaseSettings):

@@ -119,7 +119,7 @@ class I18N(BaseMiddleware):
 
             if os.path.isfile(po_file) and not os.path.isfile(mo_file):
                 raise FileNotFoundError(
-                    f"Translations for: {name!r} were not compiled!"
+                    f"Translations for: {name} were not compiled!"
                 )
 
             with open(mo_file, "rb") as file:

@@ -1,4 +1,3 @@
-from sqlalchemy.sql.operators import from_
 from telebot import types
 from telebot.states.asyncio.context import StateContext
 from src.app.states import RegistrateUser, AgreementRules, LanguageChanger
