@@ -75,28 +75,18 @@ msgid "Thank you for sharing! Here is a summary of your information:\n"
 msgstr "Merci pour votre partage ! Voici un résumé de vos informations :\n"
 
 #: first_name
+
+
+msgid "User  language: {language}\nUser  name: {first_name}\nUser  last_name: {last_name}\nUser  sex: {sex}\nUser  age: {age}\nUser  email: {email}\nUser  city: {city}\n"
+msgstr "Язык пользователя: {language}\nИмя пользователя: {first_name}\nФамилия пользователя: {last_name}\nПол пользователя: {sex}\nВозраст пользователя: {age}\nЭлектронная почта пользователя: {email}\nГород пользователя: {city}\n"
+
+
+
 msgid "First Name: {first_name}\n"
 msgstr "Prénom : {first_name}\n"
 
-#: last_name
-msgid "Last Name: {last_name}\n"
-msgstr "Nom : {last_name}\n"
 
-#: sex
-msgid "Sex: {sex}\n"
-msgstr "Sexe : {sex}\n"
 
-#: age
-msgid "Age: {age}\n"
-msgstr "Âge : {age}\n"
-
-#: email
-msgid "Email: {email}\n"
-msgstr "Email : {email}\n"
-
-#: city
-msgid "City: {city}"
-msgstr "Ville : {city}"
 
 #: age_incorrect
 msgid "Please enter a valid number for age."

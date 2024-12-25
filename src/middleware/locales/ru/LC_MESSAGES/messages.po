@@ -18,6 +18,16 @@ msgstr ""
 "Здравствуйте! Продолжите регистрацию\nВы можете пропустить процесс с помощью команды /cancel.\n"
 "Также вы можете вернуться к регистрации с помощью команд /registration или /start."
 
+
+
+msgid ""
+"Hey {username} from {city}\n"
+" Your details: Language: {language} Full Name: {first_name} {last_name} Sex: "
+"{sex} Age: {age} Email: {email}"
+msgstr ""
+"Привет, {username} из {city}\n"
+" Ваши данные: Язык: {language} Полное имя: {first_name} {last_name} Пол: {sex} Возраст: {age} Электронная почта: {email}"
+
 #: перевести
 msgid "What is your name?"
 msgstr "Здравствуйте! Как вас зовут?"

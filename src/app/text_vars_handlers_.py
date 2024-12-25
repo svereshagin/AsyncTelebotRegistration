@@ -84,8 +84,12 @@ class Translated_Language:
     #         msg += res
     #     return msg
 
+
 class ControllText(Translated_Language):
     control_sex: list = ['male', 'female', 'мужской', 'женский', 'maschile', 'femminile']
     def control(self, word, user_id_msg):
         if word in ControllText.control_sex:
             return ControllText.return_translated_text(word, id_ = user_id_msg)
+
+
+_ = Translated_Language.return_translated_text

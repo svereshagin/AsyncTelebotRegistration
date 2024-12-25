@@ -6,8 +6,17 @@ from src.app.utils.utils import (send_language_selection_keyboard, send_sex_sele
 from src.app.states import RegistrateUser
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
-from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN
+from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN, _
 from telebot.types import ReplyParameters
+
+
+
+
+
+
+
+
+
 
 logger = logging.getLogger(__name__)
 user_data = {}
@@ -27,11 +36,11 @@ async def handle_start(bot, message: types.Message, state: StateContext):
 
     if is_registered == 1:
         #make main part
-        text = TRAN.return_translated_text("already_registered", id_=message.from_user.id)
+        text = _("already_registered", id_=message.from_user.id)
         await bot.send_message(message.from_user.id, text)
         return
 
-    text = TRAN.return_translated_text("start", id_=message.from_user.id)
+    text = _("start", id_=message.from_user.id)
     await bot.send_message(message.from_user.id, text=text)
     await state.set(RegistrateUser.waiting_for_language)
     await send_language_selection_keyboard(message.chat.id, bot)
@@ -55,10 +64,10 @@ async def handle_language_selection(bot, call: types.CallbackQuery, state: State
         return
     lang = call.data
     users_lang[call.from_user.id] = lang
-    text = TRAN.return_translated_text("language_changed", id_=0, lang_call=lang)
+    text = _("language_changed", id_=0, lang_call=lang)
     await bot.edit_message_text(text, call.from_user.id, call.message.id)
     await state.add_data(language=lang)
-    text = TRAN.return_translated_text("ask_name", id_=0, lang_call=lang)
+    text = _("ask_name", id_=0, lang_call=lang)
     await state.set(RegistrateUser.waiting_for_name)
     await bot.send_message(call.from_user.id, text=text)
 
@@ -76,7 +85,7 @@ async def handle_name_input(bot, message: types.Message, state: StateContext):
         None
     """
     await state.set(RegistrateUser.waiting_for_last_name)
-    text = TRAN.return_translated_text("ask_last_name", id_=message.from_user.id)
+    text = _("ask_last_name", id_=message.from_user.id)
     await state.add_data(name=message.text)
     await bot.send_message(message.from_user.id, text)
 
@@ -96,9 +105,9 @@ async def handle_last_name_input(bot, message: types.Message, state: StateContex
     await state.add_data(last_name=message.text)
     await state.set(RegistrateUser.waiting_for_sex)
     try:
-        male = TRAN.return_translated_text("male", id_=message.from_user.id)
-        female = TRAN.return_translated_text("female", id_=message.from_user.id)
-        translated_text = TRAN.return_translated_text("Choose_sex", id_=message.from_user.id)
+        male = _("male", id_=message.from_user.id)
+        female = _("female", id_=message.from_user.id)
+        translated_text = _("Choose_sex", id_=message.from_user.id)
         await send_sex_selection_keyboard(translated_text, message.chat.id, bot, male, female)
     except Exception as e:
         logger.error(f"Error sending sex selection keyboard: {e}")
@@ -117,11 +126,11 @@ async def handle_sex_selection(bot, call: types.CallbackQuery, state: StateConte
     Returns:
         None
     """
-    text = TRAN.return_translated_text("data_received", id_=call.from_user.id)
+    text = _("data_received", id_=call.from_user.id)
     await bot.send_message(call.message.chat.id, text)
 
     await state.set(RegistrateUser.waiting_for_age)
-    text = TRAN.return_translated_text("ask_age", id_=call.from_user.id)
+    text = _("ask_age", id_=call.from_user.id)
     await bot.send_message(call.from_user.id, text)
 
 
@@ -147,9 +156,9 @@ async def handle_age_input(bot, message: types.Message, state: StateContext):
 
         await state.set(RegistrateUser.waiting_for_email)
         await state.add_data(age=age)
-        text = TRAN.return_translated_text("data_received", id_=message.from_user.id)
+        text = _("data_received", id_=message.from_user.id)
         await bot.send_message(message.chat.id, text)
-        text = TRAN.return_translated_text("ask_email", id_=message.from_user.id)
+        text = _("ask_email", id_=message.from_user.id)
         await bot.send_message(message.chat.id, text)
     else:
         await handle_incorrect_age(bot, message)
@@ -166,7 +175,7 @@ async def handle_incorrect_age(bot, message: types.Message):
     Returns:
         None
     """
-    text = TRAN.return_translated_text("age_incorrect", id_=message.from_user.id)
+    text = _("age_incorrect", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
 
 
@@ -183,9 +192,9 @@ async def handle_email_input(bot, message: types.Message, state: StateContext):
         None
     """
     await state.set(RegistrateUser.waiting_for_city)
-    text = TRAN.return_translated_text("data_received", id_=message.from_user.id)
+    text = _("data_received", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
-    text = TRAN.return_translated_text("ask_city", id_=message.from_user.id)
+    text = _("ask_city", id_=message.from_user.id)
     await state.add_data(email=message.text)
     await bot.send_message(message.chat.id, text)
 
@@ -202,7 +211,7 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
     Returns:
         None
     """
-    text = TRAN.return_translated_text("data_received", id_=message.from_user.id)
+    text = _("data_received", id_=message.from_user.id)
     await bot.send_message(message.chat.id, text)
     async with state.data() as data:
         user = User(
@@ -215,16 +224,17 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
             email = data.get("email"),
             city = message.text
         )
-
-    # msg = TRAN.format_thank_you_message(message.from_user.id, user)
+    await bot.send_message(message.chat.id, "reg_done")
+    text = _(user.__repr__(), message.from_user.id)
+    print(text)
     await add_person(user)
+    await state.delete()
     await bot.send_message(
         message.chat.id,
-        text=user.__repr__(),
+        text = text,
         parse_mode="html",
         reply_parameters=ReplyParameters(message_id=message.message_id),
     )
-    await state.delete()
 
 
 async def handle_any_state(bot, message: types.Message, state: StateContext):

@@ -1,9 +1,6 @@
-import asyncio
 from typing import Union
 from telebot import types
-from telebot.async_telebot import AsyncTeleBot
 from src.middleware.i18n_middleware.i18n_base_middleware import I18N
-from telebot.asyncio_storage.memory_storage import StateMemoryStorage
 
 
 class I18NMiddleware(I18N):

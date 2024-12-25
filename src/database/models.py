@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, ForeignKey
 from .database import Base
 from sqlalchemy import Integer, String, SMALLINT, BIGINT
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
+from src.app.text_vars_handlers_ import Translated_Language as tran
 
 class User(Base):
     """Инициализация модели пользователя.
@@ -35,13 +35,16 @@ class User(Base):
     )
 
     def __repr__(self):
-        return (f"User language: {self.language}"
-                f"User name:{self.first_name}"
-                f"User last_name:{self.last_name}"
-                f"User sex: {self.sex}"
-                f"User age: {self.age}"
-                f"User email: {self.email}"
-                f"User city:{self.city}")
+        def __repr__(self):
+            return ('Hey {username} from {city}\n Your details: Language: {language} Full Name: {first_name} {last_name} Sex: {sex} Age: {age} Email: {email}').format(
+                language=self.language,
+                username=self.first_name,
+                city=self.city,
+                sex=self.sex,
+                last_name=self.last_name,
+                first_name=self.first_name,
+                age=self.age,
+                email=self.email)
 
     # 0: inactive, 1: in search, 2: in game
 
