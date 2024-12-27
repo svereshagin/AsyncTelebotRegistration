@@ -1,4 +1,6 @@
-from telebot import TeleBot, types  # Импортируем types
+from email import message_from_bytes
+
+from telebot import TeleBot, types
 from pydantic import BaseModel
 from src.bot_instance import bot
 
@@ -9,6 +11,7 @@ class TelebotCommand(BaseModel):
 
 
 class TelebotCommandsManager:
+    """Class provides more elegant and structured working with commands"""
     def __init__(self, bot: TeleBot):
         self.bot = bot
         self.commands = [
@@ -16,6 +19,8 @@ class TelebotCommandsManager:
             TelebotCommand(command="/help", description="help description"),
             TelebotCommand(command="/cancel", description="cancel description"),
             TelebotCommand(command="/lang", description="lang description"),
+            TelebotCommand(command="/show_rules", description="lang description"),
+            TelebotCommand(command="/my_settings", description="my_settings description"),
         ]
 
     async def set_start_commands(self):
@@ -24,5 +29,18 @@ class TelebotCommandsManager:
         await bot.set_my_commands(commands=commands)
 
 
+    async def commands_inline_keyboard_menu(self):
+        """Send inline keyboard menu for user"""
+        keyboard = types.InlineKeyboardMarkup(row_width=1)
+
+        # Create buttons for each command
+        buttons = [
+            types.InlineKeyboardButton(text=cmd.command, callback_data=cmd.command) for cmd in self.commands
+        ]
+
+        # Add buttons to the keyboard
+        keyboard.add(*buttons)
+
+        return keyboard
 
 tcm = TelebotCommandsManager(bot)

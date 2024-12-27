@@ -2,6 +2,7 @@ from telebot.states import State, StatesGroup
 
 
 class RegistrateUser(StatesGroup):
+    waiting_for_start: State = State()
     waiting_for_name: State = State()
     waiting_for_last_name: State = State()
     waiting_for_sex: State = State()

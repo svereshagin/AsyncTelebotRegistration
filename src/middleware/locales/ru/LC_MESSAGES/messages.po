@@ -20,13 +20,9 @@ msgstr ""
 
 
 
-msgid ""
-"Hey {username} from {city}\n"
-" Your details: Language: {language} Full Name: {first_name} {last_name} Sex: "
-"{sex} Age: {age} Email: {email}"
-msgstr ""
-"Привет, {username} из {city}\n"
-" Ваши данные: Язык: {language} Полное имя: {first_name} {last_name} Пол: {sex} Возраст: {age} Электронная почта: {email}"
+msgid "Hey from {city}\n Your details:\n Language: {language}\n Full Name: {first_name} {last_name}\n Sex: {sex}\n Age: {age}\n Email: {email}"
+msgstr "Привет из {city}\n Ваши данные:\n Язык: {language}\n Полное имя: {first_name} {last_name}\n Пол: {sex}\n Возраст: {age}\n Почта: {email}"
+
 
 #: перевести
 msgid "What is your name?"
@@ -73,6 +69,11 @@ msgstr "Пожалуйста, введите 'мужской' или 'женск
 #: ask_age
 msgid "What is your age?"
 msgstr "Сколько вам лет?"
+
+msgid "$his name is John Sina"
+msgstr "$his зовут Джон Сина"
+
+
 
 #: ask_email
 msgid "What is your email?"

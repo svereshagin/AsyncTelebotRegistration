@@ -13,14 +13,14 @@ from src.app.services.registration import (
     handle_city_input,
     handle_any_state,
 )
+from src.configs.commands import tcm
 from src.app.services.one_reason_handlers.one_reason import (show_rules, handle_rules_acceptance, handle_command_selection,
                                                              handle_callback_data_language)
 
 def register_handlers(bot):
     @bot.message_handler(commands=["start"])
     async def start_handler(message: types.Message, state: StateContext):
-
-        await handle_start(bot, message, state)
+        await handle_start(bot, message.from_user.id, state)
 
     @bot.message_handler(commands=['show_rules'])
     async def rules_handler(message: types.Message, state: StateContext):
@@ -34,7 +34,17 @@ def register_handlers(bot):
     async def change_language_handler(message: types.Message, state: StateContext):
         await handle_command_selection(bot, message, state)
 
-    # @bot.message_handler(commands=["my_info"])
+    @bot.message_handler(commands=["cmd_input"])
+    async def cmd_input_handler(message: types.Message):
+        keyboard = await tcm.commands_inline_keyboard_menu()
+        await bot.send_message(message.chat.id, "Choose an option:", reply_markup=keyboard)
+
+    @bot.callback_query_handler(func=lambda call: call.data in ["/start", "/help"])
+    #describe menu objects here
+    async def parcer(call: types.CallbackQuery, state: StateContext):
+        await bot.send_message(call.from_user.id, "activated")
+        if call.data == "/start":
+            await handle_start(bot, call.from_user.id, state)
 
 
     @bot.callback_query_handler(func=lambda call: call.data in Translated_Language.langvs,
@@ -48,6 +58,9 @@ def register_handlers(bot):
     async def language_handler(call: types.CallbackQuery, state: StateContext):
         await handle_language_selection(bot, call, state)
 
+    @bot.message_handler(state=RegistrateUser.waiting_for_start)
+    async def name_get(message: types.Message, state: StateContext):
+        await handle_start(bot, message, state)
 
     @bot.message_handler(state=RegistrateUser.waiting_for_name)
     async def name_get(message: types.Message, state: StateContext):

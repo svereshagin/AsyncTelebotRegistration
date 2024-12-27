@@ -2,7 +2,7 @@ from typing import Optional
 
 from src.bot_instance import i18n
 
-users_lang = {}
+users_lang = {123:"ru"}
 
 class Translated_Language:
     # Словарь для хранения информации о языке пользователя
@@ -44,15 +44,20 @@ class Translated_Language:
         "any_no_button": "no",
         "show_rules_question": "rules",
         "show_rules": "rules",
+        "HELLO": "HELLO"
     }
 
     @staticmethod
-    def return_translated_text(text_key: str, id_: Optional[int], lang_call=0) -> str:
+    def return_translated_text(text_key: str, id_: Optional[int], model=0, lang_call=0) -> str:
         """Метод для возврата переведенного текста на основе ключа.
         :param text_key: текст отправленный для создания
         :param id_ : id пользователя для нахождения пользователя в словаре
         :param lang_call: oprional, just in case of callback_query situation
         """
+        if model:
+            return i18n.gettext(
+            text=model, lang=users_lang.get(id_,"en"))
+
         if text_key == "thank_you":
             return i18n.gettext(
                 Translated_Language.TRANSLATED.get('header', ""), lang=lang_call
@@ -67,22 +72,22 @@ class Translated_Language:
             lang=users_lang.get(id_, "en"),
         )
 
-    # @staticmethod
-    # def format_thank_you_message(user_id_msg, data):
-    #     # Формируем строку с данными
-    #     data.sex = 'male' if data.sex == 0 else 'female'
-    #     msg = ""
-    #     for attr in data:
-    #         if key == 'header':
-    #             # Если ключ - header, используем значение напрямую
-    #             res = Translated_Language.return_translated_text(key, id_=user_id_msg)
-    #         else:
-    #             # Форматируем строку с данными
-    #             res = Translated_Language.return_translated_text(
-    #                 key, id_=user_id_msg
-    #             ).format(**data)
-    #         msg += res
-    #     return msg
+    @staticmethod
+    def format_thank_you_message(user_id_msg, data: dict):
+        # Формируем строку с данными
+        data['sex'] = 'male' if data['sex'] == 0 else 'female'
+        msg = ""
+        for key in ["header", "first_name", "last_name", "sex", "age", "email", "city"]:
+            if key == 'header':
+                # Если ключ - header, используем значение напрямую
+                res = Translated_Language.return_translated_text(key, id_=user_id_msg)
+            else:
+                # Форматируем строку с данными
+                res = Translated_Language.return_translated_text(
+                    key, id_=user_id_msg
+                ).format(**data)
+            msg += res
+        return msg
 
 
 class ControllText(Translated_Language):

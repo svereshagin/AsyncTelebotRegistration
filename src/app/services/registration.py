@@ -10,41 +10,33 @@ from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN,
 from telebot.types import ReplyParameters
 
 
-
-
-
-
-
-
-
-
 logger = logging.getLogger(__name__)
 user_data = {}
-async def handle_start(bot, message: types.Message, state: StateContext):
+
+
+async def handle_start(bot, user_id, state: StateContext):
     """
     Handles the /start command. Checks if the user is registered, and if not, initiates the registration process.
     If the user is already registered, then we proceed with the main part of the programm and show menu
     Args:
         bot: Telegram bot instance.
-        message: Incoming message object.
+        user_id: Alternative to message.from_user.id because of TG restrictions of bot2bot.
         state: Context of the current state.
 
     Returns:
         None
     """
-    is_registered = await get_users(message.from_user.id)
+    is_registered = await get_users(user_id)
 
     if is_registered == 1:
-        #make main part
-        text = _("already_registered", id_=message.from_user.id)
-        await bot.send_message(message.from_user.id, text)
+        text = _("already_registered", id_=user_id)
+        await bot.send_message(user_id, text)
         return
 
-    text = _("start", id_=message.from_user.id)
-    await bot.send_message(message.from_user.id, text=text)
+    text = _("start", id_=user_id)
+    await bot.send_message(user_id, text=text)
     await state.set(RegistrateUser.waiting_for_language)
-    await send_language_selection_keyboard(message.chat.id, bot)
-    await bot.delete_message(message.chat.id, message.message_id)
+    await send_language_selection_keyboard(user_id, bot)
 
 
 async def handle_language_selection(bot, call: types.CallbackQuery, state: StateContext, flag=False):
@@ -211,30 +203,46 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
     Returns:
         None
     """
-    text = _("data_received", id_=message.from_user.id)
-    await bot.send_message(message.chat.id, text)
+    user_data = {}
+    # Извлекаем данные из состояния
     async with state.data() as data:
-        user = User(
-            language = data.get("language"),
-            first_name = data.get("name"),
-            last_name = data.get("last_name"),
-            sex = 1 if data.get("sex") == "male" else 0,
-            age = int(data.get("age")),
-            telegram_id=message.from_user.id,
-            email = data.get("email"),
-            city = message.text
-        )
-    await bot.send_message(message.chat.id, "reg_done")
-    text = _(user.__repr__(), message.from_user.id)
-    print(text)
+        try:
+            user_data = {
+                'language': data.get("language"),
+                'first_name': data.get("name"),
+                'last_name': data.get("last_name"),
+                'sex': 1 if data.get("sex") == "male" else 0,
+                'age': int(data.get("age")),
+                'email': data.get("email"),
+                'city': message.text,
+            }
+
+            user = User(
+                language=data.get("language", "en"),
+                first_name=data.get("name"),
+                last_name=data.get("last_name"),
+                sex=1 if data.get("sex") == "male" else 0,
+                age=int(data.get("age")),
+                telegram_id=message.from_user.id,
+                email=data.get("email"),
+                city=message.text,
+            )
+        except (TypeError, ValueError) as e:
+            # Отправляем сообщение об ошибке, если данные некорректны
+            await bot.send_message(message.chat.id, _("Invalid data, try again."))
+            return
+
+    msg = TRAN.format_thank_you_message(message.from_user.id, user_data)
+
     await add_person(user)
-    await state.delete()
     await bot.send_message(
         message.chat.id,
-        text = text,
+        msg,
         parse_mode="html",
         reply_parameters=ReplyParameters(message_id=message.message_id),
     )
+    await state.delete()
+
 
 
 async def handle_any_state(bot, message: types.Message, state: StateContext):
