@@ -98,3 +98,4 @@ class ControllText(Translated_Language):
 
 
 _ = Translated_Language.return_translated_text
+from string import Template

@@ -9,7 +9,7 @@ from src.database.models import User
 from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN, _
 from telebot.types import ReplyParameters
 
-
+from src.configs.commands import tcm
 logger = logging.getLogger(__name__)
 user_data = {}
 
@@ -31,6 +31,7 @@ async def handle_start(bot, user_id, state: StateContext):
     if is_registered == 1:
         text = _("already_registered", id_=user_id)
         await bot.send_message(user_id, text)
+        await tcm.commands_inline_keyboard_menu()
         return
 
     text = _("start", id_=user_id)
