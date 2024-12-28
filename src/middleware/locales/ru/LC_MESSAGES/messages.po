@@ -106,3 +106,22 @@ msgstr ""
 
 msgid "What is your language?"
 msgstr "Выберите язык. Choose your language."
+
+
+msgid "/menu"
+msgstr "/меню"
+
+msgid "/help"
+msgstr "/помощь"
+
+msgid "/cancel"
+msgstr "/выход"
+
+msgid "/lang"
+msgstr "/язык"
+
+msgid "/show_rules"
+msgstr "/согласие"
+
+msgid "/my_settings"
+msgstr "/мой_профиль"

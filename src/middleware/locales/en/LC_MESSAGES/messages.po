@@ -106,3 +106,21 @@ msgstr "no"
 
 msgid "rules"
 msgstr "rules"
+
+msgid "/menu"
+msgstr "Menu"
+
+msgid "/help"
+msgstr "Help"
+
+msgid "/cancel"
+msgstr "Exit"
+
+msgid "/lang"
+msgstr "Language"
+
+msgid "/show_rules"
+msgstr "Agreement"
+
+msgid "/my_settings"
+msgstr "My Profile"

@@ -36,15 +36,18 @@ def register_handlers(bot):
 
     @bot.message_handler(commands=["cmd_input"])
     async def cmd_input_handler(message: types.Message):
-        keyboard = await tcm.commands_inline_keyboard_menu()
+        keyboard = await tcm.commands_inline_keyboard_menu(user_id=message.from_user.id)
         await bot.send_message(message.chat.id, "Choose an option:", reply_markup=keyboard)
 
-    @bot.callback_query_handler(func=lambda call: call.data in ["/start", "/help"])
+
+
+    @bot.callback_query_handler(func=lambda call: call.data in tcm.menu)
     #describe menu objects here
     async def parcer(call: types.CallbackQuery, state: StateContext):
         await bot.send_message(call.from_user.id, "activated")
-        if call.data == "/start":
+        if call.data == "/menu":
             await handle_start(bot, call.from_user.id, state)
+
 
 
 
@@ -58,6 +61,21 @@ def register_handlers(bot):
                                 state=RegistrateUser.waiting_for_language)
     async def language_handler(call: types.CallbackQuery, state: StateContext):
         await handle_language_selection(bot, call, state)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @bot.message_handler(state=RegistrateUser.waiting_for_start)
     async def name_get(message: types.Message, state: StateContext):
@@ -105,19 +123,4 @@ def register_handlers(bot):
 
 
 
-    # @bot.message_handler(commands=['accept'])
-    # async def accept_handler(message: types.Message):
-    #     from src.database.db_sessions import get_param, update_param, get_users
-    #     print(message.text)
-    #     res = await get_users(message.from_user.id)
-    #     if res:
-    #         await bot.send_message(message.from_user.id, text="Phase1 OK")
-    #         """Phase2"""
-    #         res = await get_param(message.from_user.id, param='language')
-    #         await bot.send_message(message.from_user.id, text=res)
-    #
-    #         res = await update_param(message.from_user.id, param='language', value='ES')
-    #         await bot.send_message(message.from_user.id, text=res)
-    #     else:
-    #         await bot.send_message(message.from_user.id, text="Phase1 Failed")
 

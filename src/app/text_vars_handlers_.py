@@ -9,6 +9,8 @@ class Translated_Language:
     LANGUAGES = ["French", "Русский", "Italiano", "English", "Spanish"]
     ACRONYMS = ["fr", 'ru', 'it', 'en', 'es']
     users_lang = {}
+
+
     BUTTONS = {
         "yes": _("yes"),
         "no": _("no"),
@@ -20,7 +22,14 @@ class Translated_Language:
         "male": _("male"),
         "female": _("female"),
         "choose_sex": _("Choose your sex:"),
-
+        "keyboards": {
+            "menu": _("Menu"),
+            "help": _("Help"),
+            "cancel": _("Exit"),
+            "lang": _("Language"),
+            "show_rules": _("Agreement"),
+            "my_settings": _("My Profile"),
+        }
     }
     REGISTRATION = {
         "greetings": {
