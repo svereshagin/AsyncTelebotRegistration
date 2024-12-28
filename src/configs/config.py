@@ -10,8 +10,7 @@ TRANSLATIONS_PATH = BASE_DIR / "middleware" / "locales"
 COMMANDS_PATH = BASE_DIR / "configs" / "commands.yaml"
 
 #список директорий-языков
-LANGUAGES = [d.name for d in TRANSLATIONS_PATH.iterdir() if d.is_dir()]
-
+LANGUAGES = [d.name for d in TRANSLATIONS_PATH.iterdir() if d.is_dir()] #NOT IN USE for now
 
 
 class Settings(BaseSettings):

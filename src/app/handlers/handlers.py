@@ -1,7 +1,7 @@
 from telebot import types
 from telebot.states.asyncio.context import StateContext
 from src.app.states import RegistrateUser, AgreementRules, LanguageChanger
-from src.app.text_vars_handlers_ import Translated_Language
+from src.app.text_vars_handlers_ import Translated_Language as _
 from src.app.services.registration import (
     handle_start,
     handle_language_selection,
@@ -47,13 +47,14 @@ def register_handlers(bot):
             await handle_start(bot, call.from_user.id, state)
 
 
-    @bot.callback_query_handler(func=lambda call: call.data in Translated_Language.langvs,
+
+    @bot.callback_query_handler(func=lambda call: call.data in _.ACRONYMS,
                                 state=LanguageChanger.language)
     async def language_command_handler(call: types.CallbackQuery, state: StateContext):
         await handle_callback_data_language(bot, call, state)
 
 
-    @bot.callback_query_handler(func=lambda call: call.data in Translated_Language.langvs,
+    @bot.callback_query_handler(func=lambda call: call.data in _.ACRONYMS,
                                 state=RegistrateUser.waiting_for_language)
     async def language_handler(call: types.CallbackQuery, state: StateContext):
         await handle_language_selection(bot, call, state)

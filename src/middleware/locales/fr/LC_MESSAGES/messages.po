@@ -9,105 +9,90 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-msgid ""
-"Hello! Proceed with the registration\nYou can skip the process with /cancel command.\n"
-"Also you can return to registration with\n /registration or /start commands"
-msgstr ""
-"Bonjour! Procédez à l'enregistrement\nVous pouvez passer le processus avec la commande /cancel.\n"
-"Vous pouvez également revenir à l'enregistrement avec\n les commandes /registration ou /start."
+msgid "yes"
+msgstr "oui"
 
-#: перевести
+msgid "no"
+msgstr "non"
+
+msgid "accept"
+msgstr "accepter"
+
+msgid "reject"
+msgstr "rejeter"
+
+msgid "show_rules_question"
+msgstr "afficher_question_règles"
+
+msgid "you agreed"
+msgstr "vous avez accepté"
+
+msgid "you declined"
+msgstr "vous avez refusé"
+
+msgid "male"
+msgstr "homme"
+
+msgid "female"
+msgstr "femme"
+
+msgid "Hello! Proceed with the registration\nYou can skip the process with /cancel command.\nAlso you can return to registration with\n /registration or /start commands"
+msgstr "Bonjour! Continuez l'inscription\nVous pouvez sauter le processus avec la commande /cancel.\nVous pouvez également revenir à l'inscription avec\n les commandes /registration ou /start"
+
+msgid "You are already registered"
+msgstr "Vous êtes déjà inscrit"
+
+msgid "Language has been changed"
+msgstr "La langue a été modifiée"
+
 msgid "What is your name?"
-msgstr "Bonjour! Quel est votre nom?"
+msgstr "Comment vous appelez-vous?"
 
-msgid "Choose_sex"
-msgstr "Choisissez_sexe"
+msgid "What is your last name?"
+msgstr "Quel est votre nom de famille?"
 
-msgid  "Language: {language}\n"
-msgstr "Language: {language}\n"
+msgid "Choose your sex:"
+msgstr "Choisissez votre sexe :"
 
+msgid "What is your age?"
+msgstr "Quel âge avez-vous?"
+
+msgid "What is your email?"
+msgstr "Quelle est votre adresse email?"
+
+msgid "What is your city?"
+msgstr "Quelle est votre ville?"
 
 msgid "Data received"
 msgstr "Données reçues"
 
-#: already_registered
-msgid "You are already registered."
-msgstr "Vous êtes déjà enregistré."
+msgid "Age incorrect"
+msgstr "Âge incorrect"
 
-#: get_me
-msgid "You do not have an account. Proceed with registration by /add_me."
-msgstr "Vous n'avez pas de compte. Procédez à l'enregistrement avec /add_me."
+msgid "Cancel command"
+msgstr "Commande annulée"
 
-#: get_me2
-msgid "Your account already exists."
-msgstr "Votre compte existe déjà."
+msgid "Error"
+msgstr "Erreur"
 
-#: cancel_command
-msgid "Your information has been cleared. Type /start to begin again."
-msgstr "Vos informations ont été effacées. Tapez /start pour recommencer."
+msgid ""
+"Your profile data: \n"
+"name - {name}\n"
+"lastname - {last_name}\n"
+"sex - {sex}\n"
+"age  -   {age}\n"
+"email - {email}\n"
+"city  -   {city}\n"
+"language  -   {language}\n"
+msgstr ""
+"Vos données de profil : \n"
+"nom - {name}\n"
+"nom de famille - {last_name}\n"
+"sexe - {sex}\n"
+"âge - {age}\n"
+"email - {email}\n"
+"ville - {city}\n"
+"langue - {language}\n"
 
-#: ask_last_name
-msgid "What is your last name?"
-msgstr "Quel est votre nom de famille ?"
-
-#: ask_sex
-msgid "What is your sex? (male/female)"
-msgstr "Quel est votre sexe ? (homme/femme)"
-
-#: sex_get_response_error
-msgid "Please enter 'male' or 'female'."
-msgstr "Veuillez entrer 'homme' ou 'femme'."
-
-#: ask_age
-msgid "What is your age?"
-msgstr "Quel âge avez-vous ?"
-
-#: ask_email
-msgid "What is your email?"
-msgstr "Quelle est votre adresse email ?"
-
-#: ask_city
-msgid "What is your city?"
-msgstr "Quelle est votre ville ?"
-
-#: header
-msgid "Thank you for sharing! Here is a summary of your information:\n"
-msgstr "Merci pour votre partage ! Voici un résumé de vos informations :\n"
-
-#: first_name
-
-
-msgid "User  language: {language}\nUser  name: {first_name}\nUser  last_name: {last_name}\nUser  sex: {sex}\nUser  age: {age}\nUser  email: {email}\nUser  city: {city}\n"
-msgstr "Язык пользователя: {language}\nИмя пользователя: {first_name}\nФамилия пользователя: {last_name}\nПол пользователя: {sex}\nВозраст пользователя: {age}\nЭлектронная почта пользователя: {email}\nГород пользователя: {city}\n"
-
-
-
-msgid "First Name: {first_name}\n"
-msgstr "Prénom : {first_name}\n"
-
-
-
-
-#: age_incorrect
-msgid "Please enter a valid number for age."
-msgstr "Veuillez entrer un nombre valide pour l'âge."
-
-#: language_changed
-msgid "Language has been changed"
-msgstr "La langue a été modifiée"
-
-#: sex choose function
-msgid "male"
-msgstr "masculin"
-
-msgid "female"
-msgstr "féminin"
-
-msgid "yes"
-msgstr "si"
-
-msgid "no"
-msgstr "no"
-
-msgid "rules"
-msgstr "rules"
+msgid "What is your language?"
+msgstr "Выберите язык. Choose your language."

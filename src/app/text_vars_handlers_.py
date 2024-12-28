@@ -1,101 +1,113 @@
-from typing import Optional
-
+from typing import Optional, Any
+from telebot.types import InlineKeyboardMarkup,InlineKeyboardButton
 from src.bot_instance import i18n
 
-users_lang = {123:"ru"}
 
 class Translated_Language:
     # Словарь для хранения информации о языке пользователя
-    langvs = ["fr", 'ru', 'it', 'en']
-    # Словарь с переводами
-    TRANSLATED = {
-        #start
-        "start": "Hello! Proceed with the registration\nYou can skip the process with /cancel command.\n"
-                 "Also you can return to registration with\n /registration or /start commands", #also for registration
-        "already_registered": "You are already registered.",
-        "ask_name": "What is your name?",
-        "Choose_sex": "Choose_sex",
-        "data_received": "data_received",
-        #get_me handler
-        "get_me": "You do not have an account. Proceed with registration by /add_me.",
-        "get_me2": "Your account already exists.",
-        #cancel_handler
-        "cancel_command": "Your information has been cleared. Type /start to begin again.",
-        #state_handlers
-        "ask_last_name": "What is your last name?",
-        "ask_sex": "What is your sex? (male/female)",
-        "sex_get_response_error": "Please enter 'male' or 'female'.",
-        "ask_age": "What is your age?",
-        "ask_email": "What is your email?",
-        "ask_city": "What is your city?",
-        "header": "Thank you for sharing! Here is a summary of your information:\n",
-        "first_name": "First Name: {first_name}\n",
-        "last_name": "Last Name: {last_name}\n",
-        "sex": "Sex: {sex}\n",
-        "age": "Age: {age}\n",
-        "language": "Language: {language}\n",
-        "email": "Email: {email}\n",
-        "city": "City: {city}",
-        "age_incorrect": "Please enter a valid number for age.",
-        "language_changed": "Language has been changed",
-        "male": "male",
-        "female": "female",
-        "any_yes_button": "yes",
-        "any_no_button": "no",
-        "show_rules_question": "rules",
-        "show_rules": "rules",
-        "HELLO": "HELLO"
+    _ = i18n.gettext
+    LANGUAGES = ["French", "Русский", "Italiano", "English", "Spanish"]
+    ACRONYMS = ["fr", 'ru', 'it', 'en', 'es']
+    users_lang = {}
+    BUTTONS = {
+        "yes": _("yes"),
+        "no": _("no"),
+        "accept": _("accept"),
+        "reject": _("reject"),
+        "show_rules_question": _("show_rules_question"),
+        "you agreed": _("you agreed"),
+        "you declined": _("you declined"),
+        "male": _("male"),
+        "female": _("female"),
+        "choose_sex": _("Choose your sex:"),
+
+    }
+    REGISTRATION = {
+        "greetings": {
+            "start": _("Hello! Proceed with the registration\nYou can skip the process with /cancel command.\n"
+                       "Also you can return to registration with\n /registration or /start commands"),
+            "already_registered": _("You are already registered"),
+            "language_changed": _("Language has been changed",),
+        },
+        "prompts": {
+            "ask_language": _("What is your language?"),
+            "ask_name": _("What is your name?"),
+            "ask_last_name": _("What is your last name?"),
+            "choose_sex": _("Choose your sex:"),
+            "ask_age": _("What is your age?"),
+            "ask_email": _("What is your email?"),
+            "ask_city": _("What is your city?"),
+        },
+        "responses": {
+            "male": _("male"),
+            "female": _("female"),
+            "data_received": _("Data received"),
+            "age_incorrect": _("Age incorrect"),
+            "cancel_command": _("Cancel command"),
+            "user_data": _("User data"),
+        },
+        "errors": {
+            "Error": _("Error"),
+        },
+        "user_data": _("Your profile data: \n"
+        "name - {name}\n"
+        "lastname - {last_name}\n"
+        "sex - {sex}\n"
+        "age  -   {age}\n"
+        "email - {email}\n"
+        "city  -   {city}\n"
+        "language  -   {language}\n")
     }
 
+
     @staticmethod
-    def return_translated_text(text_key: str, id_: Optional[int], model=0, lang_call=0) -> str:
-        """Метод для возврата переведенного текста на основе ключа.
-        :param text_key: текст отправленный для создания
-        :param id_ : id пользователя для нахождения пользователя в словаре
-        :param lang_call: oprional, just in case of callback_query situation
+    def get_translation(dict_: str, key: str, lang: Optional[str] = None) -> str:
         """
-        if model:
-            return i18n.gettext(
-            text=model, lang=users_lang.get(id_,"en"))
+        Извлекает перевод из вложенного словаря на основе переданного ключа.
 
-        if text_key == "thank_you":
-            return i18n.gettext(
-                Translated_Language.TRANSLATED.get('header', ""), lang=lang_call
-            )
-        if lang_call:
-            print(lang_call, "ok")
-            return i18n.gettext(
-                Translated_Language.TRANSLATED.get(text_key, ""), lang=lang_call
-            )
-        return i18n.gettext(
-            Translated_Language.TRANSLATED.get(text_key, ""),
-            lang=users_lang.get(id_, "en"),
-        )
+        Args:
+            dict_ (str): Имя словаря: REG || BUTT
+            key (str): Ключ в формате "category.subcategory.key".
+            lang (Optional[str]): Язык перевода. Если не передан, используется "en".
 
-    @staticmethod
-    def format_thank_you_message(user_id_msg, data: dict):
-        # Формируем строку с данными
-        data['sex'] = 'male' if data['sex'] == 0 else 'female'
-        msg = ""
-        for key in ["header", "first_name", "last_name", "sex", "age", "email", "city"]:
-            if key == 'header':
-                # Если ключ - header, используем значение напрямую
-                res = Translated_Language.return_translated_text(key, id_=user_id_msg)
-            else:
-                # Форматируем строку с данными
-                res = Translated_Language.return_translated_text(
-                    key, id_=user_id_msg
-                ).format(**data)
-            msg += res
-        return msg
+        Returns:
+            str: Переведенный текст.
+        """
+        lang = lang or "en"
+        keys = key.split(".")  # Разделяем ключ по точке
 
+        if dict_ == 'REG':
+            current_dict: Any = Translated_Language.REGISTRATION
+        elif dict_ == 'BUTT':
+            current_dict: Any = Translated_Language.BUTTONS
+        try:
+            for k in keys:
+                current_dict = current_dict[k]
+            # Возвращаем перевод с учетом языка
+            return i18n.gettext(current_dict, lang=lang)
+        except KeyError:
+            return f"Translation for '{key}' not found."
 
-class ControllText(Translated_Language):
-    control_sex: list = ['male', 'female', 'мужской', 'женский', 'maschile', 'femminile']
-    def control(self, word, user_id_msg):
-        if word in ControllText.control_sex:
-            return ControllText.return_translated_text(word, id_ = user_id_msg)
+    @classmethod
+    def translate(cls, dict_, key: str, user_id: Optional[int] = None) -> str:
+        """
+        Перевод текста для конкретного пользователя по ключу.
 
+        Args:
+            key (str): Ключ для перевода.
+            user_id (Optional[int]): ID пользователя.
 
-_ = Translated_Language.return_translated_text
-from string import Template
+        Returns:
+            str: Переведенный текст.
+        """
+        lang = cls.users_lang.get(user_id, "en")  # Получаем язык пользователя
+        return cls.get_translation(dict_, key, lang=lang)
+    @classmethod
+    def languages_keyboard(self):
+        # Создаем клавиатуру с кнопками для выбора языка
+        keyboard = [
+            [InlineKeyboardButton(text=lang, callback_data=acronym) for lang, acronym in
+             zip(Translated_Language.LANGUAGES, Translated_Language.ACRONYMS)]
+        ]
+
+        return InlineKeyboardMarkup(keyboard)

@@ -17,6 +17,9 @@ msgstr ""
 "Hello! What is your first name?\n"
 "You can skip the process with /cancel command."
 
+msgid "What is your language?"
+msgstr "Выберите язык. Choose your language."
+
 #: already_registered
 msgid "You are already registered."
 msgstr "You are already registered."

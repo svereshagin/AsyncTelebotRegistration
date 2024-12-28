@@ -1,140 +1,108 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-28 00:05+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <LL@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
-"Project-Id-Version: PACKAGE VERSION\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"MIME-Version: 1.0\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: start_greeting
-msgid ""
-"Hello! Proceed with the registration\nYou can skip the process with /cancel command.\n"
-"Also you can return to registration with\n /registration or /start commands"
-msgstr ""
-"Здравствуйте! Продолжите регистрацию\nВы можете пропустить процесс с помощью команды /cancel.\n"
-"Также вы можете вернуться к регистрации с помощью команд /registration или /start."
-
-
-
-msgid "Hey from {city}\n Your details:\n Language: {language}\n Full Name: {first_name} {last_name}\n Sex: {sex}\n Age: {age}\n Email: {email}"
-msgstr "Привет из {city}\n Ваши данные:\n Язык: {language}\n Полное имя: {first_name} {last_name}\n Пол: {sex}\n Возраст: {age}\n Почта: {email}"
-
-
-#: перевести
-msgid "What is your name?"
-msgstr "Здравствуйте! Как вас зовут?"
-
-msgid "Choose_sex"
-msgstr "Выберите_пол"
-
-msgid "Data received"
-msgstr "Данные получены"
-
-#: already_registered
-msgid "You are already registered."
-msgstr "Вы уже зарегистрированы."
-
-#: get_me
-msgid "You do not have an account. Proceed with registration by /add_me."
-msgstr "У вас нет аккаунта. Пожалуйста, начните регистрацию с помощью команды /add_me."
-
-#: get_me2
-msgid "Your account already exists."
-msgstr "Ваш аккаунт уже существует."
-
-#: cancel_command
-msgid "Your information has been cleared. Type /start to begin again."
-msgstr "Ваша информация была очищена. Введите /start, чтобы начать заново."
-
-#: ask_last_name
-msgid "What is your last name?"
-msgstr "Какова ваша фамилия?"
-
-
-msgid  "Language: {language}\n"
-msgstr "Язык: {language}\n"
-
-#: ask_sex
-msgid "What is your sex? (male/female)"
-msgstr "Какой у вас пол? (мужской/женский)"
-
-#: sex_get_response_error
-msgid "Please enter 'male' or 'female'."
-msgstr "Пожалуйста, введите 'мужской' или 'женский'."
-
-#: ask_age
-msgid "What is your age?"
-msgstr "Сколько вам лет?"
-
-msgid "$his name is John Sina"
-msgstr "$his зовут Джон Сина"
-
-
-
-#: ask_email
-msgid "What is your email?"
-msgstr "Какой у вас адрес электронной почты?"
-
-#: ask_city
-msgid "What is your city?"
-msgstr "В каком городе вы живете?"
-
-#: header
-msgid "Thank you for sharing! Here is a summary of your information:\n"
-msgstr "Спасибо за информацию! Вот краткое резюме ваших данных:\n"
-
-#: first_name
-msgid "First Name: {first_name}\n"
-msgstr "Имя: {first_name}\n"
-
-#: last_name
-msgid "Last Name: {last_name}\n"
-msgstr "Фамилия: {last_name}\n"
-
-#: sex
-msgid "Sex: {sex}\n"
-msgstr "Пол: {sex}\n"
-
-#: age
-msgid "Age: {age}\n"
-msgstr "Возраст: {age}\n"
-
-#: email
-msgid "Email: {email}\n"
-msgstr "Электронная почта: {email}\n"
-
-#: city
-msgid "City: {city}"
-msgstr "Город: {city}"
-
-#: age_incorrect
-msgid "Please enter a valid number for age."
-msgstr "Пожалуйста, введите корректное число для возраста."
-
-#: language_changed
-msgid "Language has been changed"
-msgstr "Язык изменён на русский"
-
-#: sex choose function
-msgid
-"male"
-msgstr
-"мужской"
-
-msgid
-"female"
-msgstr
-"женский"
-
+#: src/app/text_vars_handlers_.py:16
 msgid "yes"
 msgstr "да"
 
 msgid "no"
 msgstr "нет"
 
-msgid "rules"
-msgstr "правила"
+msgid "accept"
+msgstr "принимать"
+
+msgid "reject"
+msgstr "отклонять"
+
+msgid "show_rules_question"
+msgstr "показать_вопрос_правил"
+
+msgid "you agreed"
+msgstr "вы согласились"
+
+msgid "you declined"
+msgstr "вы отклонили"
+
+msgid "male"
+msgstr "мужчина"
+
+msgid "female"
+msgstr "женщина"
+
+msgid "Hello! Proceed with the registration\nYou can skip the process with /cancel command.\nAlso you can return to registration with\n /registration or /start commands"
+msgstr "Здравствуйте! Продолжите регистрацию\nВы можете пропустить процесс с помощью команды /cancel.\nТакже вы можете вернуться к регистрации с помощью\n команд /registration или /start"
+
+msgid "You are already registered"
+msgstr "Вы уже зарегистрированы"
+
+msgid "Language has been changed"
+msgstr "Язык был изменен"
+
+msgid "What is your name?"
+msgstr "Как вас зовут?"
+
+msgid "What is your last name?"
+msgstr "Какова ваша фамилия?"
+
+msgid "Choose your sex:"
+msgstr "Выберите ваш пол:"
+
+msgid "What is your age?"
+msgstr "Сколько вам лет?"
+
+msgid "What is your email?"
+msgstr "Какой у вас электронный адрес?"
+
+msgid "What is your city?"
+msgstr "Какой у вас город?"
+
+msgid "Data received"
+msgstr "Данные получены"
+
+msgid "Age incorrect"
+msgstr "Некорректный возраст"
+
+msgid "Cancel command"
+msgstr "Команда отмены"
+
+msgid "Error"
+msgstr "Ошибка"
+
+
+msgid ""
+"Your profile data: \n"
+"name - {name}\n"
+"lastname - {last_name}\n"
+"sex - {sex}\n"
+"age  -   {age}\n"
+"email - {email}\n"
+"city  -   {city}\n"
+"language  -   {language}\n"
+msgstr ""
+"Данные вашего профиля: \n"
+"имя - {name}\n"
+"фамилия - {last_name}\n"
+"пол - {sex}\n"
+"возраст - {age}\n"
+"электронная почта - {email}\n"
+"город - {city}\n"
+"язык - {language}\n"
+
+msgid "What is your language?"
+msgstr "Выберите язык. Choose your language."

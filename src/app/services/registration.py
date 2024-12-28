@@ -2,14 +2,16 @@ import logging
 import re
 from telebot import types, TeleBot
 from telebot.states.asyncio.context import StateContext
-from src.app.utils.utils import (send_language_selection_keyboard, send_sex_selection_keyboard)
+from src.app.utils.utils import ( send_sex_selection_keyboard)
 from src.app.states import RegistrateUser
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
-from src.app.text_vars_handlers_ import users_lang, Translated_Language as TRAN, _
+from src.app.text_vars_handlers_ import Translated_Language as _
 from telebot.types import ReplyParameters
 
 from src.configs.commands import tcm
+
+
 logger = logging.getLogger(__name__)
 user_data = {}
 
@@ -29,16 +31,19 @@ async def handle_start(bot, user_id, state: StateContext):
     is_registered = await get_users(user_id)
 
     if is_registered == 1:
-        text = _("already_registered", id_=user_id)
+        text = _.translate('REG',"greetings.already_registered", user_id = user_id)
         await bot.send_message(user_id, text)
         await tcm.commands_inline_keyboard_menu()
         return
 
-    text = _("start", id_=user_id)
+    text = _.translate('REG',"greetings.start", user_id = user_id)
     await bot.send_message(user_id, text=text)
     await state.set(RegistrateUser.waiting_for_language)
-    await send_language_selection_keyboard(user_id, bot)
-
+    text = _.translate("REG", "prompts.ask_language", user_id = user_id)
+    await bot.send_message(
+                user_id,
+                text,
+                reply_markup= _.languages_keyboard())
 
 async def handle_language_selection(bot, call: types.CallbackQuery, state: StateContext, flag=False):
     """
@@ -56,11 +61,11 @@ async def handle_language_selection(bot, call: types.CallbackQuery, state: State
     if flag:
         return
     lang = call.data
-    users_lang[call.from_user.id] = lang
-    text = _("language_changed", id_=0, lang_call=lang)
+    _.users_lang[call.from_user.id] = lang
+    text = _.translate('REG', "greetings.language_changed", user_id = call.from_user.id)
     await bot.edit_message_text(text, call.from_user.id, call.message.id)
     await state.add_data(language=lang)
-    text = _("ask_name", id_=0, lang_call=lang)
+    text = _.translate('REG',"prompts.ask_name", user_id=call.from_user.id)
     await state.set(RegistrateUser.waiting_for_name)
     await bot.send_message(call.from_user.id, text=text)
 
@@ -78,7 +83,7 @@ async def handle_name_input(bot, message: types.Message, state: StateContext):
         None
     """
     await state.set(RegistrateUser.waiting_for_last_name)
-    text = _("ask_last_name", id_=message.from_user.id)
+    text = _.translate('REG', "prompts.ask_last_name", user_id=message.from_user.id)
     await state.add_data(name=message.text)
     await bot.send_message(message.from_user.id, text)
 
@@ -98,12 +103,13 @@ async def handle_last_name_input(bot, message: types.Message, state: StateContex
     await state.add_data(last_name=message.text)
     await state.set(RegistrateUser.waiting_for_sex)
     try:
-        male = _("male", id_=message.from_user.id)
-        female = _("female", id_=message.from_user.id)
-        translated_text = _("Choose_sex", id_=message.from_user.id)
+        male = _.translate('REG', "responses.male", user_id=message.from_user.id)
+        female = _.translate('REG',"responses.female", user_id=message.from_user.id)
+        translated_text = _.translate("BUTT","choose_sex", user_id=message.from_user.id)
         await send_sex_selection_keyboard(translated_text, message.chat.id, bot, male, female)
     except Exception as e:
         logger.error(f"Error sending sex selection keyboard: {e}")
+        text = _.translate("REG", "erorrs.Error", user_id=message.from_user.id)
         await bot.send_message(message.from_user.id, "An error occurred while trying to send the keyboard.")
 
 
@@ -119,11 +125,11 @@ async def handle_sex_selection(bot, call: types.CallbackQuery, state: StateConte
     Returns:
         None
     """
-    text = _("data_received", id_=call.from_user.id)
+    text = _.translate("REG", "responses.data_received", user_id=call.from_user.id)
     await bot.send_message(call.message.chat.id, text)
 
     await state.set(RegistrateUser.waiting_for_age)
-    text = _("ask_age", id_=call.from_user.id)
+    text = _.translate("REG","prompts.ask_age", user_id=call.from_user.id)
     await bot.send_message(call.from_user.id, text)
 
 
@@ -139,7 +145,7 @@ async def handle_age_input(bot, message: types.Message, state: StateContext):
     Returns:
         None
     """
-    pattern = r'^[0-9]{1,2}$'
+    pattern = r'^\d+$'
 
     if re.match(pattern, message.text):
         age = int(message.text)
@@ -149,9 +155,9 @@ async def handle_age_input(bot, message: types.Message, state: StateContext):
 
         await state.set(RegistrateUser.waiting_for_email)
         await state.add_data(age=age)
-        text = _("data_received", id_=message.from_user.id)
+        text = _.translate("REG", "responses.data_received", user_id=message.from_user.id)
         await bot.send_message(message.chat.id, text)
-        text = _("ask_email", id_=message.from_user.id)
+        text = _.translate("REG","prompts.ask_email", user_id=message.from_user.id)
         await bot.send_message(message.chat.id, text)
     else:
         await handle_incorrect_age(bot, message)
@@ -168,7 +174,7 @@ async def handle_incorrect_age(bot, message: types.Message):
     Returns:
         None
     """
-    text = _("age_incorrect", id_=message.from_user.id)
+    text = _.translate("REG", "prompts.age_incorrect", user_id=message.from_user.id)
     await bot.send_message(message.chat.id, text)
 
 
@@ -185,9 +191,9 @@ async def handle_email_input(bot, message: types.Message, state: StateContext):
         None
     """
     await state.set(RegistrateUser.waiting_for_city)
-    text = _("data_received", id_=message.from_user.id)
+    text = _.translate("REG", "responses.data_received", user_id=message.from_user.id)
     await bot.send_message(message.chat.id, text)
-    text = _("ask_city", id_=message.from_user.id)
+    text = _.translate("REG", "prompts.ask_city", user_id=message.from_user.id)
     await state.add_data(email=message.text)
     await bot.send_message(message.chat.id, text)
 
@@ -204,19 +210,19 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
     Returns:
         None
     """
-    user_data = {}
+    # user_data = {}
     # Извлекаем данные из состояния
     async with state.data() as data:
         try:
-            user_data = {
-                'language': data.get("language"),
-                'first_name': data.get("name"),
-                'last_name': data.get("last_name"),
-                'sex': 1 if data.get("sex") == "male" else 0,
-                'age': int(data.get("age")),
-                'email': data.get("email"),
-                'city': message.text,
-            }
+            # user_data = {
+            #     'language': data.get("language"),
+            #     'first_name': data.get("name"),
+            #     'last_name': data.get("last_name"),
+            #     'sex': 1 if data.get("sex") == "male" else 0,
+            #     'age': int(data.get("age")),
+            #     'email': data.get("email"),
+            #     'city': message.text,
+            # }
 
             user = User(
                 language=data.get("language", "en"),
@@ -230,11 +236,16 @@ async def handle_city_input(bot, message: types.Message, state: StateContext):
             )
         except (TypeError, ValueError) as e:
             # Отправляем сообщение об ошибке, если данные некорректны
-            await bot.send_message(message.chat.id, _("Invalid data, try again."))
+            await bot.send_message(message.chat.id, _.translate("REG", "errors.Error", user_id = message.from_user.id))
             return
 
-    msg = TRAN.format_thank_you_message(message.from_user.id, user_data)
-
+    msg = _.translate("REG", "user_data", user_id=message.from_user.id)
+    msg = msg.format(
+        name=user.first_name, last_name=user.last_name,
+        sex=user.sex, age=user.age,
+        email=user.email, city=user.city,
+        language=user.language
+    )
     await add_person(user)
     await bot.send_message(
         message.chat.id,
@@ -259,5 +270,6 @@ async def handle_any_state(bot, message: types.Message, state: StateContext):
         None
     """
     await state.delete()
-    text = TRAN.return_translated_text("cancel_command", id_=message.from_user.id)
+    # text = TRAN.return_translated_text("cancel_command", id_=message.from_user.id)
+    text = ""
     await bot.send_message(message.chat.id, text)

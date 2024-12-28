@@ -1,5 +1,3 @@
-from email import message_from_bytes
-from src.app.text_vars_handlers_ import _
 from telebot import TeleBot, types
 from pydantic import BaseModel
 from src.bot_instance import bot
@@ -37,7 +35,7 @@ class TelebotCommandsManager:
 
         # Create buttons for each command
         buttons = [
-            types.InlineKeyboardButton(text=_(cmd.command, id_= user_id), callback_data=cmd.command) for cmd in self.commands
+            types.InlineKeyboardButton(text=cmd.command, callback_data=cmd.command) for cmd in self.commands
         ]
 
         # Add buttons to the keyboard

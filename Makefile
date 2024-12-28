@@ -74,8 +74,12 @@ compile_translator_en:
 compile_translator_fr:
 	msgfmt -o src/middleware/locales/fr/LC_MESSAGES/messages.mo src/middleware/locales/fr/LC_MESSAGES/messages.po
 
-find_n_compile:
-	xgettext --from-code=UTF-8 -o src/middleware/locales/messages.pot src/*.py
+
+compile_translator_es:
+	msgfmt -o src/middleware/locales/fr/LC_MESSAGES/messages.mo src/middleware/locales/fr/LC_MESSAGES/messages.po
+
+collect_text:
+	xgettext --from-code=UTF-8 -o src/middleware/locales/messages.pot src/app/text_vars_handlers_.py
 
 help_tran:
 	@echo "Usage: make [command]"
@@ -85,6 +89,6 @@ help_tran:
 	@echo "  compile_translator_en   скомпилировать английскую  .mo файл для проекта"
 	@echo "  compile_translator_it   скомпилировать итальянскую .mo файл для проекта"
 	@echo "  compile_translator_ru   скомпилировать русскую     .mo файл для проекта"
-	@echo "  compile_translator_fr   скомпилировать французскую     .mo файл для проекта"
-	@echo "  compile_translator_sp   скомпилировать испанскую     .mo файл для проекта"
+	@echo "  compile_translator_fr   скомпилировать французскую .mo файл для проекта"
+	@echo "  compile_translator_sp   скомпилировать испанскую   .mo файл для проекта"
 	@echo "  collect_text	         находит текст для перевода по нижнему подчёркиванию"

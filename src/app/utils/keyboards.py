@@ -1,22 +1,7 @@
 from telebot.types import (
     InlineKeyboardMarkup,
     InlineKeyboardButton,
-    ReplyKeyboardMarkup,
-    KeyboardButton,
 )
-
-
-def languages_keyboard():
-    return InlineKeyboardMarkup(
-        keyboard=[
-            [
-                InlineKeyboardButton(text="English", callback_data="en"),
-                InlineKeyboardButton(text="Русский", callback_data="ru"),
-                InlineKeyboardButton(text="Italiano", callback_data="it"),
-                InlineKeyboardButton(text="Francese", callback_data="fr"),
-            ]
-        ]
-    )
 
 
 def sex_choose_keyboard(male,female):
