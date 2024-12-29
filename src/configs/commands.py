@@ -13,6 +13,14 @@ class TelebotCommandsManager:
     def __init__(self, bot: TeleBot):
         self.bot = bot
         self.commands = [
+            TelebotCommand(command="/start", description="start description"),
+            TelebotCommand(command="/help", description="help description"),
+            TelebotCommand(command="/cancel", description="cancel description"),
+            TelebotCommand(command="/lang", description="lang description"),
+            TelebotCommand(command="/show_rules", description="lang description"),
+            TelebotCommand(command="/my_settings", description="my_settings description"),
+        ]
+        self.menu_commands = [
             TelebotCommand(command="/menu", description="start description"),
             TelebotCommand(command="/help", description="help description"),
             TelebotCommand(command="/cancel", description="cancel description"),
@@ -20,7 +28,7 @@ class TelebotCommandsManager:
             TelebotCommand(command="/show_rules", description="lang description"),
             TelebotCommand(command="/my_settings", description="my_settings description"),
         ]
-        self.menu = [cmd.command for cmd in self.commands]
+        self.menu = [cmd.command for cmd in self.menu_commands]
 
     async def set_start_commands(self):
         await bot.delete_my_commands(scope=None, language_code=None)
@@ -37,12 +45,11 @@ class TelebotCommandsManager:
                 text=_.translate("BUTT", f"keyboards.{cmd.command[1:]}", user_id=user_id),  # Убираем "/" перед ключом
                 callback_data=cmd.command
             )
-            for cmd in self.commands
+            for cmd in self.menu_commands
         ]
 
         # Add buttons to the keyboard
         keyboard.add(*buttons)
-
         return keyboard
 
 

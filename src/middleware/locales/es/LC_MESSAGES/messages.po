@@ -1,0 +1,95 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "yes"
+msgstr "sí"
+
+msgid "no"
+msgstr "no"
+
+msgid "accept"
+msgstr "aceptar"
+
+msgid "reject"
+msgstr "rechazar"
+
+msgid "show_rules_question"
+msgstr "mostrar_pregunta_reglas"
+
+msgid "you agreed"
+msgstr "usted aceptó"
+
+msgid "you declined"
+msgstr "usted rechazó"
+
+msgid "male"
+msgstr "hombre"
+
+msgid "female"
+msgstr "mujer"
+
+msgid "Hello! Proceed with the registration\nYou can skip the process with /cancel command.\nAlso you can return to registration with\n /registration or /start commands"
+msgstr "¡Hola! Proceda con el registro\nPuede saltarse el proceso con el comando /cancel.\nTambién puede volver al registro con\n los comandos /registration o /start"
+
+msgid "You are already registered"
+msgstr "Ya estás registrado"
+
+msgid "Language has been changed"
+msgstr "El idioma ha sido cambiado"
+
+msgid "What is your name?"
+msgstr "¿Cómo te llamas?"
+
+msgid "What is your last name?"
+msgstr "¿Cuál es tu apellido?"
+
+msgid "Choose your sex:"
+msgstr "Elija su sexo:"
+
+msgid "What is your age?"
+msgstr "¿Cuántos años tienes?"
+
+msgid "What is your email?"
+msgstr "¿Cuál es tu correo electrónico?"
+
+msgid "What is your city?"
+msgstr "¿Cuál es tu ciudad?"
+
+msgid "Data received"
+msgstr "Datos recibidos"
+
+msgid "Age incorrect"
+msgstr "Edad incorrecta"
+
+msgid "Cancel command"
+msgstr "Comando cancelado"
+
+msgid "Error"
+msgstr "Error"
+
+msgid ""
+"Your profile data: \n"
+"name - {name}\n"
+"lastname - {last_name}\n"
+"sex - {sex}\n"
+"age  -   {age}\n"
+"email - {email}\n"
+"city  -   {city}\n"
+"language  -   {language}\n"
+msgstr ""
+"Datos de tu perfil: \n"
+"nombre - {name}\n"
+"apellido - {last_name}\n"
+"sexo - {sex}\n"
+"edad - {age}\n"
+"correo electrónico - {email}\n"
+"ciudad - {city}\n"
+"idioma - {language}\n"

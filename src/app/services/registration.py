@@ -1,6 +1,6 @@
 import logging
 import re
-from telebot import types, TeleBot
+from telebot import types
 from telebot.states.asyncio.context import StateContext
 from src.app.utils.utils import ( send_sex_selection_keyboard)
 from src.app.states import RegistrateUser
@@ -8,7 +8,6 @@ from src.database.db_sessions import add_person, get_users
 from src.database.models import User
 from src.app.text_vars_handlers_ import Translated_Language as _
 from telebot.types import ReplyParameters
-
 from src.configs.commands import tcm
 
 
@@ -34,7 +33,13 @@ async def handle_start(bot, user_id, state: StateContext):
         text = _.translate('REG',"greetings.already_registered", user_id = user_id)
         await bot.send_message(user_id, text)
         await tcm.commands_inline_keyboard_menu()
-        return
+        keyboard = await tcm.commands_inline_keyboard_menu(user_id=user_id)
+        await bot.send_message(user_id, "Choose an option:", reply_markup=keyboard)
+
+
+
+
+
 
     text = _.translate('REG',"greetings.start", user_id = user_id)
     await bot.send_message(user_id, text=text)
