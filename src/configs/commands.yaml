@@ -14,4 +14,13 @@ commands:
   - command: "show_rules"
     description: "show rules agreement"
     response: "show rules"
-#
+
+
+inline_keyboard:
+  menu:
+    - "menu"
+    - "help"
+    - "cancel"
+    - "lang"
+    - "show_rules"
+    - "my_settings"
