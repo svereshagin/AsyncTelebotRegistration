@@ -76,7 +76,7 @@ compile_translator_fr:
 
 
 compile_translator_es:
-	msgfmt -o src/middleware/locales/fr/LC_MESSAGES/messages.mo src/middleware/locales/fr/LC_MESSAGES/messages.po
+	msgfmt -o src/middleware/locales/es/LC_MESSAGES/messages.mo src/middleware/locales/es/LC_MESSAGES/messages.po
 
 collect_text:
 	xgettext --from-code=UTF-8 -o src/middleware/locales/messages.pot src/app/text_vars_handlers_.py

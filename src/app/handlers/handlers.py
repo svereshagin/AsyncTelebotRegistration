@@ -1,7 +1,7 @@
 from telebot import types
 from telebot.states.asyncio.context import StateContext
 from src.app.states import RegistrateUser, AgreementRules, LanguageChanger
-from src.app.text_vars_handlers_ import Translated_Language as _
+from src.app.translator import Translated_Language as _
 from src.app.services.registration import (
     handle_start,
     handle_language_selection,
@@ -16,7 +16,6 @@ from src.app.services.registration import (
 from src.configs.commands import tcm
 from src.app.services.one_reason_handlers.one_reason import (show_rules, handle_rules_acceptance, handle_command_selection,
                                                              handle_callback_data_language)
-
 def register_handlers(bot):
     @bot.message_handler(commands=["start"])
     async def start_handler(message: types.Message, state: StateContext):

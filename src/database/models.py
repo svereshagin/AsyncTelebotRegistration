@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, ForeignKey
 from .database import Base
 from sqlalchemy import Integer, String, SMALLINT, BIGINT
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src.app.text_vars_handlers_ import Translated_Language
+from src.app.translator import Translated_Language
 
 class User(Base):
     """Инициализация модели пользователя.

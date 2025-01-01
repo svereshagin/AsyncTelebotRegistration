@@ -2,14 +2,14 @@ import logging
 import re
 from telebot import types
 from telebot.states.asyncio.context import StateContext
-from src.app.utils.utils import ( send_sex_selection_keyboard)
 from src.app.states import RegistrateUser
 from src.database.db_sessions import add_person, get_users
 from src.database.models import User
-from src.app.text_vars_handlers_ import Translated_Language as _
+from src.app.translator import Translated_Language as _
 from telebot.types import ReplyParameters
 from src.configs.commands import tcm
-
+from src.configs.keyboard_manager import IKM
+# from src.configs.keyboard_manager import InlineKeyboardManager as IKM
 
 logger = logging.getLogger(__name__)
 user_data = {}
@@ -28,6 +28,9 @@ async def handle_start(bot, user_id, state: StateContext):
         None
     """
     is_registered = await get_users(user_id)
+
+    await bot.send_message(chat_id=user_id, text="выбор", reply_markup=IKM.get_menu())
+    await bot.send_message(chat_id=user_id, text="выбор", reply_markup=IKM.get_session())
 
     if is_registered == 1:
         text = _.translate('REG',"greetings.already_registered", user_id = user_id)
@@ -108,10 +111,8 @@ async def handle_last_name_input(bot, message: types.Message, state: StateContex
     await state.add_data(last_name=message.text)
     await state.set(RegistrateUser.waiting_for_sex)
     try:
-        male = _.translate('REG', "responses.male", user_id=message.from_user.id)
-        female = _.translate('REG',"responses.female", user_id=message.from_user.id)
-        translated_text = _.translate("BUTT","choose_sex", user_id=message.from_user.id)
-        await send_sex_selection_keyboard(translated_text, message.chat.id, bot, male, female)
+        # translated_text = _.translate("BUTT","choose_sex", user_id=message.from_user.id)
+        await IKM.send_sex_selection_keyboard(message.from_user.id)
     except Exception as e:
         logger.error(f"Error sending sex selection keyboard: {e}")
         text = _.translate("REG", "erorrs.Error", user_id=message.from_user.id)

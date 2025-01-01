@@ -18,9 +18,13 @@ commands:
 
 inline_keyboard:
   menu:
-    - "menu"
-    - "help"
-    - "cancel"
-    - "lang"
-    - "show_rules"
-    - "my_settings"
+    menu: "/menu"
+    help: "/help"
+    cancel: "/cancel"
+    lang: "/lang"
+    show_rules: "/show_rules"
+    profile: "/profile"
+  session:
+    add_user: "tre"
+    my_profile: "rte"
+    dre: "BTR"

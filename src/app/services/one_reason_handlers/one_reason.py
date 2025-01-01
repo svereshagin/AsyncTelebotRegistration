@@ -1,8 +1,9 @@
-from src.app.text_vars_handlers_ import Translated_Language as _
+from src.app.translator import Translated_Language as _
 from telebot.states.asyncio.context import StateContext
 from src.app.states import LanguageChanger, AgreementRules
 from telebot import types
-from src.app.utils.utils import send_rules_agreement_keyboard
+from src.configs.keyboard_manager import IKM
+
 
 
 
@@ -21,11 +22,8 @@ async def show_rules(bot , message: types.Message, state: StateContext) -> None:
     await bot.delete_message(message.chat.id, message.message_id)
     text = _.translate("show_rules", user_id=message.from_user.id)
     print(text)
-    button_text_yes = _.translate("any_yes_button", user_id=message.from_user.id)
-    button_text_no =  _.translate("any_no_button", user_id=message.from_user.id)
-    button_question = _.translate("show_rules_question", user_id=message.from_user.id)
     await bot.send_message(message.chat.id, text)
-    await send_rules_agreement_keyboard(button_question, message.chat.id, bot, button_text_yes, button_text_no)
+    await IKM.send_rules_agreement_keyboard(message.chat.id,)
 
     await state.set(AgreementRules.waiting_for_agreement)
 

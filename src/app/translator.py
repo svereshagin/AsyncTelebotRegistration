@@ -23,12 +23,12 @@ class Translated_Language:
         "female": _("female"),
         "choose_sex": _("Choose your sex:"),
         "keyboards": {
-            "menu": _("Menu"),
-            "help": _("Help"),
-            "cancel": _("Exit"),
-            "lang": _("Language"),
-            "show_rules": _("Agreement"),
-            "my_settings": _("My Profile"),
+            "menu": _("menu"),
+            "help": _("help"),
+            "cancel": _("exit"),
+            "lang": _("language"),
+            "show_rules": _("agreement"),
+            "profile": _("profile"),
         }
     }
     REGISTRATION = {

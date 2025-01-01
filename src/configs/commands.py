@@ -1,7 +1,7 @@
 from telebot import TeleBot, types
 from pydantic import BaseModel
 from src.bot_instance import bot
-from src.app.text_vars_handlers_ import Translated_Language as _
+from src.app.translator import Translated_Language as _
 
 class TelebotCommand(BaseModel):
     command: str
